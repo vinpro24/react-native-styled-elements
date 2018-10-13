@@ -50,10 +50,10 @@ class PullUp extends React.PureComponent {
     }
 
     _onPanResponderRelease(_, gestureState) {
-        if (gestureState.dy > 20) {
+        if (gestureState.dy > 0) {
             // SWIPE DOWN
             this.showMini()
-        } else if (gestureState.dy < -20) {
+        } else if (gestureState.dy < -0) {
             // SWIPE UP
             this.showFull()
         }
@@ -77,16 +77,17 @@ class PullUp extends React.PureComponent {
     }
 
     render() {
+        const { containerStyle } = this.props
         return (
             <View
                 ref={c => (this.containerView = c)}
                 {...this._panResponder.panHandlers} 
-                style={[styles.container, { height: this.props.miniHeight }]}
+                style={[styles.container, containerStyle, { height: this.props.miniHeight }]}
                 onLayout={e => {
                     this.currHeight = e.nativeEvent.layout.height
                 }}
             >
-                <View style={{ padding: 8 }}>
+                <View style={{ padding: 16 }}>
                     <View style={styles.arrow} />
                 </View>
 
@@ -123,14 +124,13 @@ const styles = StyleSheet.create({
         left: 0,
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
-        padding: 8,
+        paddingHorizontal: 0,
         backgroundColor: '#fff',
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#eee',
-        shadowColor: '#eee',
-        shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.5,
-        shadowRadius: 1.5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
         elevation: 2
     },
     arrow: {
