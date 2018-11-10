@@ -4,6 +4,8 @@ import PlaceCompleted from './components/PlaceCompleted'
 import DatePicker from './components/DatePicker'
 import Icon from './components/Icon'
 import Button from './components/Button'
+import KeyboardSpaceView from './components/KeyboardSpaceView'
+import Input from './components/Input'
 
 export {
     UpDownPuller,
@@ -11,5 +13,7 @@ export {
     PlaceCompleted,
     DatePicker,
     Icon,
-    Button
+    Button,
+    KeyboardSpaceView,
+    Input
 }

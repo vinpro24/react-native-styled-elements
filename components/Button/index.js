@@ -1,11 +1,22 @@
 import React from 'react'
-import { Text, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, TouchableOpacity, Platform } from 'react-native'
 import colors from '../../colors'
 
+import iconTypes from '../Icon/iconTypes'
+
 const Button = props => {
-    const { title, titleStyle, containerStyle, disabled, onPress } = props
+    const { title, titleStyle, icon, containerStyle, disabled, onPress } = props
+    let iconView
+    if (typeof icon === 'object') {
+        const Icon = iconTypes(icon.type)
+        iconView = <Icon name={icon.name} size={icon.size} color={icon.color} />
+    } else {
+        iconView = icon
+    }
+
     return (
         <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle, disabled && styles.disabled]}>
+            {iconView && <View style={{ marginRight: 10 }}>{iconView}</View>}
             <Text style={[styles.title, titleStyle]}>{title}</Text>
         </TouchableOpacity>
     )
@@ -15,7 +26,7 @@ const styles = {
     container: {
         padding: 10,
         flexDirection: 'row',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 3,
         backgroundColor: colors.primary,
