@@ -1,3 +1,8 @@
+import {
+    setDefaultTextProps,
+    setDefaultTextStyle
+} from './utils'
+
 import UpDownPuller from './components/UpDownPuller'
 import DropDownMenu from './components/DropDownMenu'
 import PlaceCompleted from './components/PlaceCompleted'
@@ -15,5 +20,7 @@ export {
     Icon,
     Button,
     KeyboardSpaceView,
-    Input
+    Input,
+    setDefaultTextProps,
+    setDefaultTextStyle
 }
