@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, Platform } from 'react-native'
-import colors from '../../colors'
+import colors from '../../static/colors'
 
 import iconTypes from '../Icon/iconTypes'
 
