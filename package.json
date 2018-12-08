@@ -1,6 +1,6 @@
 {
     "name": "react-native-styled-elements",
-    "version": "1.0.3",
+    "version": "1.0.6-beta-2",
     "description": "The UI Toolkit for React Native(iOS/Android)",
     "main": "index.js",
     "files": [
@@ -8,7 +8,8 @@
         "index.js",
         "package.json",
         "components",
-        "utils"
+        "utils",
+        "static"
     ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +17,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/vinpro24/react-native-styled-elements.git"
+        "url": "https://github.com/vinpro24/react-native-styled-elements"
     },
     "keywords": [
         "react-component",
