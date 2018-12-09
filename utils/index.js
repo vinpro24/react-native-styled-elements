@@ -6,13 +6,13 @@ export const setDefaultTextStyle = (style) => {
     Text.render = function (...args) {
         const origin = oldRender.call(this, ...args)
         return React.cloneElement(origin, {
-            style: [origin.props.style, style]
+            style: [style, origin.props.style]
         })
     }
     TextInput.render = function (...args) {
         const origin = oldRender.call(this, ...args)
         return React.cloneElement(origin, {
-            style: [origin.props.style, style]
+            style: [style, origin.props.style]
         })
     }
 }
