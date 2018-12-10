@@ -1,6 +1,7 @@
 import {
     setDefaultTextProps,
-    setDefaultTextStyle
+    setDefaultTextStyle,
+    i18n
 } from './utils'
 
 import UpDownPuller from './components/UpDownPuller'
@@ -22,5 +23,6 @@ export {
     KeyboardSpaceView,
     Input,
     setDefaultTextProps,
-    setDefaultTextStyle
+    setDefaultTextStyle,
+    i18n
 }

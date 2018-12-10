@@ -1,5 +1,8 @@
 import React from 'react'
 import { Text, TextInput } from 'react-native'
+import i18nLib from './i18n'
+
+export const i18n = i18nLib
 
 export const setDefaultTextStyle = (style) => {
     const oldRender = Text.render

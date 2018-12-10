@@ -6,6 +6,31 @@
 npm install react-native-styled-elements
 ```
 
+# DefaultTextProps, DefaultTextStyle
+
+```js
+import { setDefaultTextProps, setDefaultTextStyle } from 'react-native-styled-elements';
+
+setDefaultTextProps(textProps)
+setDefaultTextStyle(textStyle)
+```
+
+#  I18n translations
+Get the user preferred languages and use the library of your choice to translate your app. Uses the user preferred locale as default.
+
+```js
+import { i18n } from 'react-native-styled-elements';
+
+//Enable fallbacks if you want`en-US` and`en-GB` to fallback to`en`
+i18n.fallbacks = true
+i18n.locale = 'en'
+i18n.translations = {
+    en: { welcome: 'Hello' }
+}
+i18n.getLanguage() // or i18n.locale
+console.log(i18n.t('welcome'))
+```
+
 # UpDownPuller
 
 ```js
