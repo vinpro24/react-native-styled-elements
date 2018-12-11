@@ -20,25 +20,47 @@ export default type => {
     switch (type) {
         case 'zocial':
             return ZocialIcon;
+        case 'ZocialIcon':
+            return ZocialIcon;
         case 'octicon':
+            return OcticonIcon;
+        case 'OcticonIcon':
             return OcticonIcon;
         case 'material':
             return MaterialIcon;
+        case 'MaterialIcon':
+            return MaterialIcon;
         case 'material-community':
+            return MaterialCommunityIcon;
+        case 'MaterialCommunityIcon':
             return MaterialCommunityIcon;
         case 'ionicon':
             return Ionicon;
+        case 'Ionicon':
+            return Ionicon;
         case 'foundation':
+            return FoundationIcon;
+        case 'FoundationIcon':
             return FoundationIcon;
         case 'evilicon':
             return EvilIcon;
+        case 'EvilIcon':
+            return EvilIcon;
         case 'entypo':
+            return EntypoIcon;
+        case 'EntypoIcon':
             return EntypoIcon;
         case 'font-awesome':
             return FAIcon;
+        case 'FAIcon':
+            return FAIcon;
         case 'simple-line-icon':
             return SimpleLineIcon;
+        case 'SimpleLineIcon':
+            return SimpleLineIcon;
         case 'feather':
+            return FeatherIcon;
+        case 'FeatherIcon':
             return FeatherIcon;
         default:
             if (customIcons.hasOwnProperty(type)) {

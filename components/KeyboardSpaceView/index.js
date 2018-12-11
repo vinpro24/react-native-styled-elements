@@ -1,9 +1,7 @@
 import React from 'react'
-import { Text, View, Keyboard } from 'react-native'
+import { View, Keyboard } from 'react-native'
 
 export default class KeyboardSpaceView extends React.PureComponent {
-    // shouldComponentUpdate()
-
     componentWillMount() {
         this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow)
         this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide)

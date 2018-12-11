@@ -10,7 +10,7 @@ import PlaceCompleted from './components/PlaceCompleted'
 import DatePicker from './components/DatePicker'
 import Icon from './components/Icon'
 import Button from './components/Button'
-import KeyboardSpaceView from './components/KeyboardSpaceView'
+import KeyboardSpace from './components/KeyboardSpaceView'
 import Input from './components/Input'
 
 export {
@@ -20,7 +20,7 @@ export {
     DatePicker,
     Icon,
     Button,
-    KeyboardSpaceView,
+    KeyboardSpace,
     Input,
     setDefaultTextProps,
     setDefaultTextStyle,

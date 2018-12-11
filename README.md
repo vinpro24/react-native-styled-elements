@@ -47,7 +47,7 @@ import { UpDownPuller } from 'react-native-styled-elements';
 </UpDownPuller>
 ```
 
-# DropdownMenu
+## DropdownMenu
 
 ```js
 import { DropdownMenu } from 'react-native-styled-elements';
@@ -63,18 +63,22 @@ import { DropdownMenu } from 'react-native-styled-elements';
 ```
 
 
+## Icon
+You have to install [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
+
 ```js
 import { Icon } from 'react-native-styled-elements';
 
 <Icon
     name='comment-discussion'
-    type='octicon'
+    type='OcticonIcon'
     size={20}
     color='#000'
+    onPress={() => {}}
 />
 ```
 
-
+## Button
 ```js
 import { Button } from 'react-native-styled-elements';
 
@@ -85,4 +89,11 @@ import { Button } from 'react-native-styled-elements';
     disabled={true/false}
     onPress={}
 />
+```
+
+## KeyboardSpace
+```js
+import { KeyboardSpace } from 'react-native-styled-elements';
+
+<KeyboardSpace />
 ```
