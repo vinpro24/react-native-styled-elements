@@ -12,6 +12,7 @@ import Icon from './components/Icon'
 import Button from './components/Button'
 import KeyboardSpace from './components/KeyboardSpaceView'
 import Input from './components/Input'
+import ActionSheet from './components/ActionSheet'
 
 export {
     UpDownPuller,
@@ -22,6 +23,7 @@ export {
     Button,
     KeyboardSpace,
     Input,
+    ActionSheet,
     setDefaultTextProps,
     setDefaultTextStyle,
     i18n
