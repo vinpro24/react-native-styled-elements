@@ -1,22 +1,27 @@
 import React from 'react'
-import { View, Keyboard } from 'react-native'
+import { View, Keyboard, Platform } from 'react-native'
 
 export default class KeyboardSpaceView extends React.PureComponent {
     componentWillMount() {
-        this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow)
-        this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide)
+        if (Platform.OS === 'ios') {
+            this.onKeyboardShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardShowListener)
+            this.onKeyboardHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardHideListener)
+        } else {
+            this.onKeyboardShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardShowListener)
+            this.onKeyboardHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardHideListener)
+        }
     }
 
     componentWillUnmount() {
-        this.keyboardWillShowSub.remove()
-        this.keyboardWillHideSub.remove()
+        this.onKeyboardShowListener.remove()
+        this.onKeyboardHideListener.remove()
     }
 
-    keyboardWillShow = (event) => {
+    keyboardShowListener = (event) => {
         this.containerView.setNativeProps({ style: { height: event.endCoordinates.height } })
     }
 
-    keyboardWillHide = () => {
+    keyboardHideListener = () => {
         this.containerView.setNativeProps({ style: { height: 0 } })
     }
 

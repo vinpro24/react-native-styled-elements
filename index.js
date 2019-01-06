@@ -13,6 +13,9 @@ import Button from './components/Button'
 import KeyboardSpace from './components/KeyboardSpaceView'
 import Input from './components/Input'
 import ActionSheet from './components/ActionSheet'
+import Rating from './components/Rating'
+import Badge from './components/Badge'
+import ListView from './components/ListView'
 
 export {
     UpDownPuller,
@@ -24,6 +27,9 @@ export {
     KeyboardSpace,
     Input,
     ActionSheet,
+    Rating,
+    Badge,
+    ListView,
     setDefaultTextProps,
     setDefaultTextStyle,
     i18n

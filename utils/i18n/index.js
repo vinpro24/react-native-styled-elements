@@ -1,9 +1,10 @@
-import { NativeModules } from 'react-native'
+import { NativeModules, Platform } from 'react-native'
 
 //Enable fallbacks if you want`en-US` and`en-GB` to fallback to`en`
+
 export default {
     fallbacks: true,
-    locale: `${NativeModules.SettingsManager.settings.AppleLocale}`,
+    locale: Platform.OS === 'ios' ? NativeModules.SettingsManager.settings.AppleLocale : NativeModules.I18nManager.localeIdentifier,
     translations: {},
     getLanguage: function () {
         if (this.fallbacks) return this.locale.replace(/(\s*(-|_).*$)/, '')
