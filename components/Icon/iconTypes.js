@@ -9,6 +9,7 @@ import EntypoIcon from 'react-native-vector-icons/Entypo'
 import FAIcon from 'react-native-vector-icons/FontAwesome'
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons'
 import FeatherIcon from 'react-native-vector-icons/Feather'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const customIcons = {};
 
@@ -18,49 +19,53 @@ export const registerCustomIconType = (id, customIcon) => {
 
 export default type => {
     switch (type) {
+        case 'ant-design':
+            return ZocialIcon;
+        case 'AntDesign':
+            return AntDesign;
         case 'zocial':
             return ZocialIcon;
-        case 'ZocialIcon':
+        case 'ZocialIcons':
             return ZocialIcon;
         case 'octicon':
             return OcticonIcon;
-        case 'OcticonIcon':
+        case 'OcticonIcons':
             return OcticonIcon;
         case 'material':
             return MaterialIcon;
-        case 'MaterialIcon':
+        case 'MaterialIcons':
             return MaterialIcon;
         case 'material-community':
             return MaterialCommunityIcon;
-        case 'MaterialCommunityIcon':
+        case 'MaterialCommunityIcons':
             return MaterialCommunityIcon;
         case 'ionicon':
             return Ionicon;
-        case 'Ionicon':
+        case 'Ionicons':
             return Ionicon;
         case 'foundation':
             return FoundationIcon;
-        case 'FoundationIcon':
+        case 'FoundationIcons':
             return FoundationIcon;
         case 'evilicon':
             return EvilIcon;
-        case 'EvilIcon':
+        case 'EvilIcons':
             return EvilIcon;
         case 'entypo':
             return EntypoIcon;
-        case 'EntypoIcon':
+        case 'EntypoIcons':
             return EntypoIcon;
         case 'font-awesome':
             return FAIcon;
-        case 'FAIcon':
+        case 'FAIcons':
             return FAIcon;
         case 'simple-line-icon':
             return SimpleLineIcon;
-        case 'SimpleLineIcon':
+        case 'SimpleLineIcons':
             return SimpleLineIcon;
         case 'feather':
             return FeatherIcon;
-        case 'FeatherIcon':
+        case 'FeatherIcons':
             return FeatherIcon;
         default:
             if (customIcons.hasOwnProperty(type)) {
