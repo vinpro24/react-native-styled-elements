@@ -1,30 +1,38 @@
 import { NativeModules, Platform } from 'react-native'
-import { Localization } from 'expo-localization'
 
 //Enable fallbacks if you want`en-US` and`en-GB` to fallback to`en` .settings.AppleLocale.replace(/_/, '-')
-//Platform.OS === 'ios' ? NativeModules.SettingsManager.settings.AppleLocale : NativeModules.I18nManager.localeIdentifier,
 
-let defaultLocale = 'en-US'
-if (Localization) {
-    defaultLocale = Localization.locale
-} else if (Platform.OS === 'ios') {
-    if (NativeModules.SettingsManager) {
-        defaultLocale = NativeModules.SettingsManager.settings.AppleLocale
+function getDeviceLocale() {
+    try {
+        const expoLocal = require.resolve('expo-localization')
+        if (expoLocal && expoLocal.Localization) {
+            return expoLocal.Localization.locale
+        } else {
+            throw Error('expo-localization is not found')
+        }
+    } catch (e) {
+        if (Platform.OS === 'ios') {
+            if (NativeModules.SettingsManager) {
+                return NativeModules.SettingsManager.settings.AppleLocale
+            }
+        } else if (Platform.OS === 'android') {
+            return NativeModules.I18nManager.localeIdentifier
+        }
+        return 'en-US'
     }
-} else if (Platform.OS === 'android') {
-    defaultLocale = NativeModules.I18nManager.localeIdentifier
+
 }
 
 export default {
     fallbacks: true,
-    locale: defaultLocale,
+    locale: getDeviceLocale(),
     translations: {},
     getLanguage: function () {
         if (this.fallbacks) return this.locale.replace(/(\s*(-|_).*$)/, '')
         return this.locale
     },
     t: function (key) {
-        if (!this.translations[this.locale]) return null
-        return this.translations[this.locale][key]
+        if (!this.translations[this.getLanguage()]) return null
+        return this.translations[this.getLanguage()][key]
     }
 };

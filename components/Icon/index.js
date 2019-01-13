@@ -9,7 +9,7 @@ const Icon = props => {
     const Icon = iconTypes(type)
 
     return (
-        <WrapperView onPress={onPress} style={[styles.containerStyle, containerStyle]}>
+        <WrapperView onPress={onPress} style={[styles.containerStyle, containerStyle]} underlayColor='transparent'>
             <Icon
                 name={name}
                 size={size}

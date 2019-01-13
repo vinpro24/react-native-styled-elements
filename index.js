@@ -16,6 +16,7 @@ import ActionSheet from './components/ActionSheet'
 import Rating from './components/Rating'
 import Badge from './components/Badge'
 import ListView from './components/ListView'
+import SwipeableItem from './components/SwipeableItem'
 
 export {
     UpDownPuller,
@@ -30,6 +31,7 @@ export {
     Rating,
     Badge,
     ListView,
+    SwipeableItem,
     setDefaultTextProps,
     setDefaultTextStyle,
     i18n

@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Text, View, TouchableOpacity, ViewPropTypes } from 'react-native'
 import PropTypes from 'prop-types'
 import DropDownModal from './components/DropDownModal'
 
-export default class DropDownMenu extends Component {
+export default class DropDownMenu extends React.PureComponent {
     static propTypes = {
+        options: PropTypes.array,
         visible: PropTypes.bool,
         onClose: PropTypes.func,
         style: ViewPropTypes.style,
@@ -13,32 +14,39 @@ export default class DropDownMenu extends Component {
         selectedValue: PropTypes.object,
         onOptionSelected: PropTypes.func,
     }
+
     static defaultProps = {
 
-    };
+    }
 
     constructor(props) {
         super(props)
         this.state = {
             collapsed: false
         }
-        this.collapse = this.collapse.bind(this)
-        this.close = this.close.bind(this)
     }
 
-    collapse() {
+    collapse = () => {
         this.setState({ collapsed: true })
     }
 
-    close() {
+    close = () => {
         this.setState({ collapsed: false })
     }
 
-    renderSelectedOption() {
+    renderSelectedOption = () => {
         const { renderButton, selectedValue, options, buttonTextStyle } = this.props
         let value = selectedValue
         if (!value) {
             value = options[0]
+        }
+
+        if (this.props.children) {
+            return (
+                <TouchableOpacity onPress={this.collapse}>
+                    {this.props.children}
+                </TouchableOpacity>
+            )
         }
 
         if (renderButton) {
@@ -59,11 +67,10 @@ export default class DropDownMenu extends Component {
     render() {
         const { collapsed } = this.state
         const { options, onOptionSelected, containerStyle } = this.props
-        const button = this.renderSelectedOption()
 
         return (
             <View style={containerStyle}>
-                {button}
+                {this.renderSelectedOption()}
                 <DropDownModal
                     options={options}
                     visible={collapsed}

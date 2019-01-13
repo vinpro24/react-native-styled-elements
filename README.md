@@ -50,9 +50,9 @@ import { UpDownPuller } from 'react-native-styled-elements';
 ## DropdownMenu
 
 ```js
-import { DropdownMenu } from 'react-native-styled-elements';
+import { DropDownMenu } from 'react-native-styled-elements';
 
-<DropdownMenu
+<DropDownMenu
     options={[{ title: '', value: {} }]}
     onOptionSelected={item => {}}
     onClose={}
@@ -91,7 +91,7 @@ import { Button } from 'react-native-styled-elements';
 />
 ```
 
-## Button
+## ListView
 ```js
 import { ListView } from 'react-native-styled-elements';
 
@@ -102,6 +102,17 @@ import { ListView } from 'react-native-styled-elements';
     page={1}
     perPage={10}
     fetchData={({ page }, onSuccess, onError) => {}}
+/>
+```
+
+## SwipeableItem
+```js
+import { SwipeableItem } from 'react-native-styled-elements';
+
+<SwipeableItem
+    renderLeft={}
+    renderRight={}
+    style={}
 />
 ```
 
