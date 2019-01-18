@@ -1,9 +1,6 @@
 import React from 'react'
-import { View, Animated, PanResponder } from 'react-native'
-
-/**
-* @param {{leftHiddenItemWidth: number, subrightHiddenItemWidthheader: number, style: object}} props 
-*/
+import { View, Animated, PanResponder, ViewPropTypes } from 'react-native'
+import PropTypes from 'prop-types'
 
 export default class SwipeableItem extends React.PureComponent {
     constructor(props) {
@@ -63,4 +60,10 @@ export default class SwipeableItem extends React.PureComponent {
 
         )
     }
+}
+
+SwipeableItem.propTypes = {
+    renderLeft: PropTypes.element,
+    renderRight: PropTypes.element,
+    style: ViewPropTypes.style
 }

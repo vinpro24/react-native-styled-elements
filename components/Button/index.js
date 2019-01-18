@@ -4,7 +4,7 @@ import colors from '../../static/colors'
 
 import iconTypes from '../Icon/iconTypes'
 
-const Button = props => {
+const Button = React.memo(props => {
     const { title, titleStyle, icon, containerStyle, disabled, onPress } = props
     let iconView
     if (typeof icon === 'object') {
@@ -20,7 +20,7 @@ const Button = props => {
             <Text style={[styles.title, titleStyle]}>{title}</Text>
         </TouchableOpacity>
     )
-}
+})
 
 const styles = {
     container: {

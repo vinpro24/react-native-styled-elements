@@ -26,13 +26,23 @@ function getDeviceLocale() {
 export default {
     fallbacks: true,
     locale: getDeviceLocale(),
+    defaultLocale: 'en-US',
     translations: {},
     getLanguage: function () {
         if (this.fallbacks) return this.locale.replace(/(\s*(-|_).*$)/, '')
         return this.locale
     },
+    getDefaultLanguage: function () {
+        if (this.fallbacks) return this.defaultLocale.replace(/(\s*(-|_).*$)/, '')
+        return this.defaultLocale
+    },
     t: function (key) {
-        if (!this.translations[this.getLanguage()]) return null
+        if (!this.translations[this.getLanguage()]) {
+            if (this.translations[this.getDefaultLanguage()]) {
+                return this.translations[this.getDefaultLanguage()][key]
+            }
+            return null
+        }
         return this.translations[this.getLanguage()][key]
     }
 };
