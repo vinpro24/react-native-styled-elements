@@ -51,7 +51,7 @@ export default class SwipeableItem extends React.PureComponent {
                 </View>
 
                 <Animated.View
-                    style={[{ backgroundColor: '#fff' }, this.position.getLayout()]}
+                    style={[this.props.contentContainerStyle, this.position.getLayout()]}
                     {...this.panResponder.panHandlers}
                 >
                     {this.props.children}
@@ -65,5 +65,6 @@ export default class SwipeableItem extends React.PureComponent {
 SwipeableItem.propTypes = {
     renderLeft: PropTypes.element,
     renderRight: PropTypes.element,
-    style: ViewPropTypes.style
+    style: ViewPropTypes.style,
+    contentContainerStyle: ViewPropTypes.style
 }

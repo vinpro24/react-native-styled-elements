@@ -1,7 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { TextInput, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 
-export default class Input extends Component {
+export default class Input extends React.Component {
+    static propTypes = {
+        onChangeText: PropTypes.func,
+        title: PropTypes.string
+    }
 
     shouldComponentUpdate(nextProps) {
         if (nextProps.value !== this.props.value) {
@@ -24,12 +28,10 @@ export default class Input extends Component {
 
     renderTitle = () => {
         const { titleStyle, title } = this.props
-        if (title) {
-            return (
-                <Text style={[styles.title, titleStyle]}>{title}</Text>
-            )
-        }
-        return null
+        if (!title) null
+        return (
+            <Text style={[styles.title, titleStyle]}>{title}</Text>
+        )
     }
 
     renderWarning = () => {

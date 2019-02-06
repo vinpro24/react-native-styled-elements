@@ -1,7 +1,8 @@
 import {
     setDefaultTextProps,
     setDefaultTextStyle,
-    i18n
+    i18n,
+    debounce
 } from './utils'
 
 import UpDownPuller from './components/UpDownPuller'
@@ -10,6 +11,7 @@ import PlaceCompleted from './components/PlaceCompleted'
 import DatePicker from './components/DatePicker'
 import Icon from './components/Icon'
 import Button from './components/Button'
+import CheckBox from './components/CheckBox'
 import KeyboardSpace from './components/KeyboardSpaceView'
 import Input from './components/Input'
 import ActionSheet from './components/ActionSheet'
@@ -25,6 +27,7 @@ export {
     DatePicker,
     Icon,
     Button,
+    CheckBox,
     KeyboardSpace,
     Input,
     ActionSheet,
@@ -34,5 +37,6 @@ export {
     SwipeableItem,
     setDefaultTextProps,
     setDefaultTextStyle,
-    i18n
+    i18n,
+    debounce
 }

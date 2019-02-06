@@ -29,7 +29,7 @@ export default type => {
             return ZocialIcon;
         case 'octicon':
             return OcticonIcon;
-        case 'OcticonIcons':
+        case 'OcticIcons':
             return OcticonIcon;
         case 'material':
             return MaterialIcon;

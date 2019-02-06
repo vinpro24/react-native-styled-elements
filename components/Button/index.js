@@ -4,23 +4,23 @@ import colors from '../../static/colors'
 
 import iconTypes from '../Icon/iconTypes'
 
-const Button = React.memo(props => {
+const Button = props => {
     const { title, titleStyle, icon, containerStyle, disabled, onPress } = props
-    let iconView
+    let iconComponent
     if (typeof icon === 'object') {
         const Icon = iconTypes(icon.type)
-        iconView = <Icon name={icon.name} size={icon.size} color={icon.color} />
+        iconComponent = <Icon name={icon.name} size={icon.size} color={icon.color} />
     } else {
-        iconView = icon
+        iconComponent = icon
     }
 
     return (
         <TouchableOpacity onPress={onPress} style={[styles.container, containerStyle, disabled && styles.disabled]}>
-            {iconView && <View style={{ marginRight: 10 }}>{iconView}</View>}
+            {iconComponent && <View style={{ marginRight: 10 }}>{iconComponent}</View>}
             <Text style={[styles.title, titleStyle]}>{title}</Text>
         </TouchableOpacity>
     )
-})
+}
 
 const styles = {
     container: {

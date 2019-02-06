@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, View, Text } from 'react-native'
+import { FlatList, ActivityIndicator, Text } from 'react-native'
 import PropTypes from 'prop-types'
 
 export default class ListView extends Component {
@@ -17,6 +17,7 @@ export default class ListView extends Component {
         data: [],
         keyExtractor: (item) => item.id || item._id,
         fetchData: () => { },
+        renderItem: () => null,
         page: 1,
         perPage: 10,
         ListEmptyComponent: <Text style={{ textAlign: 'center', margin: 60 }}>No items.</Text>
@@ -67,19 +68,19 @@ export default class ListView extends Component {
     }
 
     render() {
-        const { isRefreshing, data } = this.state
+        const { isRefreshing, isLoadmore, data } = this.state
         return (
             <FlatList
+                ListEmptyComponent={!isRefreshing ? this.props.ListEmptyComponent : null}
+                ListHeaderComponent={isLoadmore ? <ActivityIndicator size='small' style={{ margin: 10, alignSelf: 'center' }} /> : null}
                 style={{ flex: 1 }}
+                {...this.props}
                 extraData={this.state}
                 data={data}
-                renderItem={this.props.renderItem}
-                keyExtractor={this.props.keyExtractor}
                 onRefresh={this.onRefresh}
                 refreshing={isRefreshing}
                 onEndReachedThreshold={0.7}
                 onEndReached={this.onLoadmore}
-                ListEmptyComponent={!isRefreshing ? this.props.ListEmptyComponent : null}
             />
         )
     }
