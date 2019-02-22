@@ -116,9 +116,9 @@ import { SwipeableItem } from 'react-native-styled-elements';
 />
 ```
 
-## KeyboardSpace
+## KeyboardSpacer
 ```js
-import { KeyboardSpace } from 'react-native-styled-elements';
+import { KeyboardSpacer } from 'react-native-styled-elements';
 
-<KeyboardSpace />
+<KeyboardSpacer />
 ```

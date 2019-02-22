@@ -21,7 +21,7 @@ const CheckBox = props => {
         onPress,
         onLongPress
     } = props
-    const Icon = iconTypes(type)
+    const Icon = iconTypes(iconType)
 
     return (
         <Component

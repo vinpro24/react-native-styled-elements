@@ -12,7 +12,7 @@ export default class DropDownMenu extends React.PureComponent {
         buttonTextStyle: PropTypes.object,
         renderButton: PropTypes.func,
         selectedValue: PropTypes.object,
-        onOptionSelected: PropTypes.func,
+        onSelected: PropTypes.func,
     }
 
     static defaultProps = {
@@ -66,7 +66,7 @@ export default class DropDownMenu extends React.PureComponent {
 
     render() {
         const { collapsed } = this.state
-        const { options, onOptionSelected, containerStyle } = this.props
+        const { options, onSelected, containerStyle } = this.props
 
         return (
             <View style={containerStyle}>
@@ -75,7 +75,7 @@ export default class DropDownMenu extends React.PureComponent {
                     options={options}
                     visible={collapsed}
                     onClose={this.close}
-                    onOptionSelected={onOptionSelected}
+                    onSelected={onSelected}
                 />
             </View>
         )

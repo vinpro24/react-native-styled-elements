@@ -1,5 +1,6 @@
 import React from 'react'
 import { TextInput, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import PropTypes from 'prop-types'
 
 export default class Input extends React.Component {
     static propTypes = {

@@ -5,15 +5,16 @@ import i18nLib from './i18n'
 export const i18n = i18nLib
 
 export const setDefaultTextStyle = (style) => {
-    const oldRender = Text.render
+    const oldTextRender = Text.render
     Text.render = function (...args) {
-        const origin = oldRender.call(this, ...args)
+        const origin = oldTextRender.call(this, ...args)
         return React.cloneElement(origin, {
             style: [style, origin.props.style]
         })
     }
+    const oldTextInputRender = TextInput.render
     TextInput.render = function (...args) {
-        const origin = oldRender.call(this, ...args)
+        const origin = oldTextInputRender.call(this, ...args)
         return React.cloneElement(origin, {
             style: [style, origin.props.style]
         })
@@ -67,4 +68,32 @@ export function debounce(func, wait = 250, immediate) {
         // Immediate mode and no wait timer? Execute the function..
         if (callNow) func.apply(context, args);
     };
+}
+
+export function stringToArrayBuffer(str) {
+    const buf = new ArrayBuffer(str.length);
+    const bufView = new Uint8Array(buf);
+    for (var i = 0, strLen = str.length; i < strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+    }
+    return buf;
+}
+
+
+export function hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+export function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }

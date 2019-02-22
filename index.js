@@ -2,7 +2,10 @@ import {
     setDefaultTextProps,
     setDefaultTextStyle,
     i18n,
-    debounce
+    debounce,
+    stringToArrayBuffer,
+    hexToRgb,
+    rgbToHex
 } from './utils'
 
 import UpDownPuller from './components/UpDownPuller'
@@ -12,7 +15,7 @@ import DatePicker from './components/DatePicker'
 import Icon from './components/Icon'
 import Button from './components/Button'
 import CheckBox from './components/CheckBox'
-import KeyboardSpace from './components/KeyboardSpaceView'
+import KeyboardSpacer from './components/KeyboardSpacer'
 import Input from './components/Input'
 import ActionSheet from './components/ActionSheet'
 import Rating from './components/Rating'
@@ -28,7 +31,7 @@ export {
     Icon,
     Button,
     CheckBox,
-    KeyboardSpace,
+    KeyboardSpacer,
     Input,
     ActionSheet,
     Rating,
@@ -38,5 +41,8 @@ export {
     setDefaultTextProps,
     setDefaultTextStyle,
     i18n,
-    debounce
+    debounce,
+    stringToArrayBuffer,
+    hexToRgb,
+    rgbToHex
 }

@@ -9,7 +9,7 @@ export default class DropDownModal extends Component {
         options: PropTypes.array.isRequired,
         visible: PropTypes.bool,
         onClose: PropTypes.func,
-        onOptionSelected: PropTypes.func
+        onSelected: PropTypes.func
     }
 
     constructor(props) {
@@ -33,8 +33,8 @@ export default class DropDownModal extends Component {
     }
 
     onSelectOption = (item) => () => {
-        if (this.props.onOptionSelected) {
-            this.props.onOptionSelected(item)
+        if (this.props.onSelected) {
+            this.props.onSelected(item)
         }
         this.close()
     }
