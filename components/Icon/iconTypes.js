@@ -10,6 +10,9 @@ import FAIcon from 'react-native-vector-icons/FontAwesome'
 import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons'
 import FeatherIcon from 'react-native-vector-icons/Feather'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import FontAwesome5Pro from 'react-native-vector-icons/FontAwesome5Pro'
 
 const customIcons = {};
 
@@ -67,6 +70,12 @@ export default type => {
             return FeatherIcon;
         case 'FeatherIcons':
             return FeatherIcon;
+        case 'FontAwesome':
+            return FontAwesome;
+        case 'FontAwesome5':
+            return FontAwesome5;
+        case 'FontAwesome5Pro':
+            return FontAwesome5Pro;
         default:
             if (customIcons.hasOwnProperty(type)) {
                 return customIcons[type];

@@ -40,7 +40,7 @@ export default class DatePicker extends React.PureComponent {
                 }
             } else {
                 const { action, year, month, day } = await DatePickerAndroid.open({
-                    date: new Date()
+                    date: this.props.value || new Date()
                 })
                 if (action !== DatePickerAndroid.dismissedAction) {
                     const date = new Date(year, month, day)
@@ -54,7 +54,7 @@ export default class DatePicker extends React.PureComponent {
 
     render() {
         const { visible } = this.state
-        const { mode } = this.props
+        const { mode, value = new Date() } = this.props
         return (
             <View>
                 <TouchableOpacity onPress={this.onPress}>
@@ -67,6 +67,7 @@ export default class DatePicker extends React.PureComponent {
                             mode={mode}
                             onClose={this.onClose}
                             onDateChange={this.onDateChange}
+                            value={value}
                         />
                     ) : null
                 }

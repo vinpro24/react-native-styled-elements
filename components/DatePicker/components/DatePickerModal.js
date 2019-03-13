@@ -3,7 +3,7 @@ import { Text, View, Modal, TouchableOpacity, DatePickerIOS, StyleSheet } from '
 
 export default class DatePickerModal extends React.PureComponent {
     state = {
-        date: new Date()
+        date: this.props.value
     }
     onDateChange = date => {
         this.setState({ date })
@@ -25,12 +25,12 @@ export default class DatePickerModal extends React.PureComponent {
     render() {
         const { visible, mode } = this.props
         const { date } = this.state
-
+        if (!visible) return null
         return (
             <Modal
                 animationType={'slide'}
                 transparent
-                visible={visible}
+                visible={true}
                 useNativeDriver
                 onRequestClose={this.dismiss}
             >

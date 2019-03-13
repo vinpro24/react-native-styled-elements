@@ -7,6 +7,7 @@ import {
     hexToRgb,
     rgbToHex
 } from './utils'
+import Theme from './theme'
 
 import UpDownPuller from './components/UpDownPuller'
 import DropDownMenu from './components/DropDownMenu'
@@ -22,6 +23,7 @@ import Rating from './components/Rating'
 import Badge from './components/Badge'
 import ListView from './components/ListView'
 import SwipeableItem from './components/SwipeableItem'
+import PhoneAuth from './components/PhoneAuth'
 
 export {
     UpDownPuller,
@@ -38,6 +40,8 @@ export {
     Badge,
     ListView,
     SwipeableItem,
+    PhoneAuth,
+    Theme,
     setDefaultTextProps,
     setDefaultTextStyle,
     i18n,

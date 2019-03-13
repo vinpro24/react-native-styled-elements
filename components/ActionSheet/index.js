@@ -13,7 +13,7 @@ export default class ActionSheet extends React.PureComponent {
     render() {
         const { visible } = this.state
         return (
-            <View>
+            <View style={this.props.style}>
                 <TouchableOpacity onPress={this.show}>
                     {this.props.buttonComponent}
                 </TouchableOpacity>

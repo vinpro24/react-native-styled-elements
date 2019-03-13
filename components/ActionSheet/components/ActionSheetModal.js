@@ -1,12 +1,12 @@
 import React from 'react'
-import { Modal, View, TouchableWithoutFeedback, Animated, Dimensions, Easing } from 'react-native'
+import { Modal, View, Text, Animated, Dimensions, Easing } from 'react-native'
 
 const { height } = Dimensions.get('window')
 
 export default class ActionSheetModal extends React.Component {
     constructor(props) {
         super(props)
-        this.translateY = new Animated.Value(height)
+        this.translateY = new Animated.Value(-height)
     }
 
     shouldComponentUpdate(nextProps) {
@@ -24,15 +24,14 @@ export default class ActionSheetModal extends React.Component {
 
     showSheet = () => {
         Animated.timing(this.translateY, {
-            toValue: 0, duration: 500, easing: Easing.linear, useNativeDriver: true
+            toValue: 0, duration: 500
         }).start()
     }
 
     hideSheet = () => {
         Animated.timing(this.translateY, {
-            toValue: height, duration: 500, easing: Easing.linear, useNativeDriver: true
+            toValue: -height, duration: 500
         }).start(() => {
-            this.contentView.setNativeProps({ display: 'none' })
             this.props.onClose()
         })
     }
@@ -45,16 +44,15 @@ export default class ActionSheetModal extends React.Component {
                 visible={visible}
                 onRequestClose={this.close}
                 transparent
+                useNativeDriver
             >
-                <TouchableWithoutFeedback onPressOut={this.close}>
-                    <View style={styles.overlay}>
-                        <Animated.View ref={c => this.contentView = c} style={[styles.container, { flex: 1, transform: [{ translateY: this.translateY }] }]}>
-                            {contentView}
-                        </Animated.View>
-                    </View>
-                </TouchableWithoutFeedback>
-
-            </Modal>
+                <View style={styles.overlay}>
+                    <Text style={{ flex: 1 }} onPress={this.close} />
+                    <Animated.View style={[styles.container, { bottom: this.translateY }]}>
+                        {contentView}
+                    </Animated.View>
+                </View>
+            </Modal >
         )
     }
 }
@@ -62,13 +60,13 @@ export default class ActionSheetModal extends React.Component {
 const styles = {
     overlay: {
         flex: 1,
-        // justifyContent: 'flex-end',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        backgroundColor: 'rgba(0, 0, 0, 0.3)'
     },
     container: {
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
         backgroundColor: '#fff',
+        overflow: 'hidden',
         position: 'absolute', bottom: 0, left: 0, right: 0
     },
     itemTextStyle: {

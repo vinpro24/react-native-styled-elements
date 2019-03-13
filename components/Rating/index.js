@@ -55,7 +55,7 @@ const Star = (props) => (
 )
 
 Rating.propTypes = {
-    containerStyle: ViewPropTypes || View.propTypes,
+    containerStyle: ViewPropTypes.style,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     max: PropTypes.number,
     total: PropTypes.number,
