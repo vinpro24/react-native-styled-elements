@@ -12,6 +12,7 @@ const CheckBox = props => {
         checkedColor,
         uncheckedColor,
         checkedIcon,
+        uncheckedIcon,
         iconRight,
         title,
         center,
@@ -34,11 +35,11 @@ const CheckBox = props => {
             onLongPress={onLongPress}
             onPress={onPress}
         >
-            {!iconRight && <Icon type={iconType} name={checkedIcon} size={size} color={checked ? checkedColor : uncheckedColor} style={{ minWidth: size }} />}
+            {!iconRight && <Icon type={iconType} name={checked ? checkedIcon : uncheckedIcon} size={size} color={checked ? checkedColor : uncheckedColor} style={{ minWidth: size }} />}
             {
                 React.isValidElement(title) ? title : <Text style={StyleSheet.flatten([styles.textStyle, textStyle && textStyle])}>{title}</Text>
             }
-            {iconRight && <Icon type={iconType} name={checkedIcon} size={size} color={checked ? checkedColor : uncheckedColor} style={{ minWidth: size }} />}
+            {iconRight && <Icon type={iconType} name={checked ? checkedIcon : uncheckedIcon} size={size} color={checked ? checkedColor : uncheckedColor} style={{ minWidth: size }} />}
         </Component>
     )
 }

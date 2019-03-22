@@ -24,6 +24,7 @@ import Badge from './components/Badge'
 import ListView from './components/ListView'
 import SwipeableItem from './components/SwipeableItem'
 import PhoneAuth from './components/PhoneAuth'
+import Chat from './components/Chat'
 
 export {
     UpDownPuller,
@@ -41,6 +42,7 @@ export {
     ListView,
     SwipeableItem,
     PhoneAuth,
+    Chat,
     Theme,
     setDefaultTextProps,
     setDefaultTextStyle,

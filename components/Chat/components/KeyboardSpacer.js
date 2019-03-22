@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 export default class KeyboardSpacer extends React.PureComponent {
     constructor() {
         super()
-        this.screenHeight = Dimensions.get('window').height;
+        this.screenHeight = Dimensions.get('window').height
         this.animHeight = new Animated.Value(0)
     }
     componentWillMount() {
@@ -22,30 +22,22 @@ export default class KeyboardSpacer extends React.PureComponent {
         this.onKeyboardHideListener.remove()
     }
 
-    keyboardShowListener = (event) => {
-        if (Platform.OS === 'ios') {
-            const height = event.endCoordinates.height - (this.screenHeight - this.containerLayoutY)
-            Animated.timing(this.animHeight, { toValue: height, duration: event ? event.duration : 250 }).start()
-        } else {
-            setTimeout(() => {
-                const height = event.endCoordinates.height - (this.screenHeight - this.containerLayoutY)
-                Animated.timing(this.animHeight, { toValue: height, duration: event ? event.duration : 250 }).start()
-            }, 300)
-        }
-    }
-
-    keyboardHideListener = (event) => {
-        Animated.timing(this.animHeight, { toValue: 0, duration: event ? event.duration : 250 }).start()
-    }
-
     onContainerLayout = ev => {
-
         this.containerLayoutY = ev.nativeEvent.layout.y
         if (this.container) {
-            this.container._component.measureInWindow((x, y, width, height) => {
+            this.container._component.measureInWindow((x, y) => {
                 this.containerLayoutY = y
             })
         }
+    }
+
+    keyboardShowListener = (event) => {
+        const height = event.endCoordinates.height - (this.screenHeight - this.containerLayoutY)
+        Animated.timing(this.animHeight, { toValue: height, duration: event.duration || 250 }).start()
+    }
+
+    keyboardHideListener = (event) => {
+        Animated.timing(this.animHeight, { toValue: 0, duration: event.duration || 250 }).start()
     }
 
     render() {
@@ -63,5 +55,5 @@ KeyboardSpacer.propsTypes = {
 
 KeyboardSpacer.defaultProps = {
     spaceMargin: 0,
-    enabled: true,
+    enabled: true
 }
