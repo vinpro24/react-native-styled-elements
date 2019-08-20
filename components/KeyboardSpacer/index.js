@@ -25,17 +25,17 @@ export default class KeyboardSpacer extends React.PureComponent {
     keyboardShowListener = (event) => {
         if (Platform.OS === 'ios') {
             const height = event.endCoordinates.height - (this.screenHeight - this.containerLayoutY)
-            Animated.timing(this.animHeight, { toValue: height, duration: event ? event.duration : 250 }).start()
+            Animated.timing(this.animHeight, { toValue: height, duration: event && event.duration ? event.duration : 250 }).start()
         } else {
             setTimeout(() => {
                 const height = event.endCoordinates.height - (this.screenHeight - this.containerLayoutY)
-                Animated.timing(this.animHeight, { toValue: height, duration: event ? event.duration : 250 }).start()
+                Animated.timing(this.animHeight, { toValue: height, duration: event && event.duration ? event.duration : 250 }).start()
             }, 300)
         }
     }
 
     keyboardHideListener = (event) => {
-        Animated.timing(this.animHeight, { toValue: 0, duration: event ? event.duration : 250 }).start()
+        Animated.timing(this.animHeight, { toValue: 0, duration: event && event.duration ? event.duration : 250 }).start()
     }
 
     onContainerLayout = ev => {

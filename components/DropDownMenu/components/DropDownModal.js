@@ -1,88 +1,52 @@
-import React, { Component } from 'react'
-import { Text, View, Modal, TouchableOpacity, Dimensions, FlatList, Animated, LayoutAnimation, Easing } from 'react-native'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { Text, View, Modal, TouchableOpacity, Dimensions, FlatList, Animated, LayoutAnimation, Easing, Image } from 'react-native'
 
 const { width, height } = Dimensions.get('window')
+import theme from '../../../theme'
 
-export default class DropDownModal extends Component {
-    static propTypes = {
-        options: PropTypes.array.isRequired,
-        visible: PropTypes.bool,
-        onClose: PropTypes.func,
-        onSelected: PropTypes.func
-    }
+const DropDownModal = props => {
+    const { options, onClose, visible, renderItem, onSelected, labelStyle } = props
+    const scale = React.useRef(new Animated.Value(1.5)).current
 
-    constructor(props) {
-        super(props)
-        this.renderItem = this.renderItem.bind(this)
-        this.containerView = new Animated.Value(1.5)
-    }
+    React.useLayoutEffect(() => {
+        scale.setValue(1.5)
+        Animated.timing(scale, { toValue: 1, duration: 500, useNativeDriver: true, easing: Easing.ease }).start()
+    }, [visible]);
 
-    componentWillMount() {
-        this.zoomAnimated = Animated.timing(this.containerView, { toValue: 1, duration: 200, useNativeDriver: true, easing: Easing.ease })
-    }
+    const _renderItem = ({ item, index }) => (
+        <TouchableOpacity onPress={onSelected(item.value, index)} style={{ width, height: 50, justifyContent: 'center', alignItems: 'center' }}>
+            {renderItem ? renderItem : <Text style={[theme.body, { textAlign: 'center' }, labelStyle]}>{item.label}</Text>}
+        </TouchableOpacity>
+    )
 
-    componentWillReceiveProps(nextProps) {
-        const { visible: wasVisible } = this.props
-        const { visible: isVisible } = nextProps
-        if (!wasVisible && isVisible) {
-            this.zoomAnimated.start(() => {
-                LayoutAnimation.easeInEaseOut()
-            })
-        }
-    }
-
-    onSelectOption = (item) => () => {
-        if (this.props.onSelected) {
-            this.props.onSelected(item)
-        }
-        this.close()
-    }
-
-    calculateListViewHeight(options) {
-        const optionsHeight = options.length * 50
-        const maxHeight = height * 0.5
-        return optionsHeight < maxHeight ? optionsHeight : maxHeight
-    }
-
-    close = () => {
-        if (this.props.onClose) {
-            this.props.onClose()
-        }
-    }
-
-    renderItem({ item }) {
-        return (
-            <TouchableOpacity onPress={this.onSelectOption(item)} style={{ width, height: 50, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={styles.itemTextStyle}>{item.title}</Text>
-            </TouchableOpacity>
-        )
-    }
-
-    render() {
-        const { visible, options } = this.props
-        return (
-            <Modal
-                animationType="fade"
-                visible={visible}
-                onRequestClose={this.close}
-                transparent
-            >
-                <Animated.View style={[styles.container, { transform: [{ scale: this.containerView }] }]}>
-                    <View style={{ height: this.calculateListViewHeight(options) }}>
-                        <FlatList
-                            data={options}
-                            keyExtractor={i => i.title}
-                            renderItem={this.renderItem}
-                        />
-                    </View>
-                    <TouchableOpacity onPress={this.close}>
-                        <Text style={{ fontSize: 20, padding: 20 }}>{'×'}</Text>
-                    </TouchableOpacity>
-                </Animated.View>
-            </Modal>
-        )
-    }
+    return (
+        <Modal
+            animationType="fade"
+            visible={visible}
+            onRequestClose={onClose}
+            transparent
+        >
+            <Animated.View style={[styles.container, { transform: [{ scale }] }]}>
+                <View style={{ height: Math.min(options.length * 50 + 150, height * 0.7) }}>
+                    <FlatList
+                        style={{ flex: 1 }}
+                        data={options}
+                        keyExtractor={(i, idx) => `${i.title}-${idx}`}
+                        renderItem={_renderItem}
+                        showsVerticalScrollIndicator={false}
+                        removeClippedSubviews={true}
+                        contentContainerStyle={{ paddingVertical: 100 }}
+                        pagingEnabled={true}
+                    />
+                    <Image source={require('./top_gradient.png')} style={{ position: 'absolute', top: -1, left: 0, right: 0, height: 50, width, resizeMode: 'stretch', tintColor: 'rgba(242, 242, 242, 0.97)' }} />
+                    <Image source={require('./bottom_gradient.png')} style={{ position: 'absolute', bottom: -1, left: 0, right: 0, height: 50, width, resizeMode: 'stretch', tintColor: 'rgba(242, 242, 242, 0.97)' }} />
+                </View>
+                <TouchableOpacity onPress={onClose}>
+                    <Text style={{ fontSize: 24, padding: 25 }}>{'×'}</Text>
+                </TouchableOpacity>
+            </Animated.View>
+        </Modal>
+    )
 }
 
 const styles = {
@@ -91,17 +55,7 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(242, 242, 242, 0.97)'
-    },
-    itemTextStyle: {
-        fontFamily: 'Verdana',
-        fontStyle: 'normal',
-        fontWeight: 'normal',
-        color: '#222222',
-        fontSize: 15,
-        textAlign: 'center'
-        // alignSelf: 'stretch',
-        // paddingHorizontal: 20,
-        // paddingVertical: 23,
-        // alignSelf: 'stretch'
     }
 }
+
+export default DropDownModal

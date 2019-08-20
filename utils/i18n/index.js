@@ -36,13 +36,25 @@ export default {
         if (this.fallbacks) return this.defaultLocale.replace(/(\s*(-|_).*$)/, '')
         return this.defaultLocale
     },
-    t: function (key) {
+    t: function (key, param) {
         if (!this.translations[this.getLanguage()]) {
             if (this.translations[this.getDefaultLanguage()]) {
-                return this.translations[this.getDefaultLanguage()][key]
+                let text = this.translations[this.getDefaultLanguage()][key]
+                if (param) {
+                    Object.keys(param).forEach(i => {
+                        text = text.split('[' + i + ']').join(param[i])
+                    })
+                }
+                return text
             }
             return null
         }
-        return this.translations[this.getLanguage()][key]
+        let text = this.translations[this.getLanguage()][key]
+        if (param) {
+            Object.keys(param).forEach(i => {
+                text = text.split('[' + i + ']').join(param[i])
+            })
+        }
+        return text
     }
 };

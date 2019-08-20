@@ -1,51 +1,37 @@
 import React from 'react'
 import { View, Image, Text, TouchableOpacity, ViewPropTypes } from 'react-native'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-class Rating extends React.PureComponent {
-    state = {
-        starBold: require('./images/ic_star_filled.png'),
-        starHalf: require('./images/ic_star_half.png'),
-        starTrans: require('./images/ic_star.png'),
-        value: this.props.value
+const starBold = require('./images/ic_star_filled.png')
+const starHalf = require('./images/ic_star_half.png')
+const starTrans = require('./images/ic_star.png')
+
+const Rating = props => {
+    const [state, setState] = React.useState({
+        value: props.value
+    })
+
+    const onSelect = (value) => () => {
+        props.onRating(value)
+        setState({ value })
     }
 
-    set(value) {
-        this.setState({ value })
-    }
-
-    onSelect(value) {
-        if (this.props.onRating) this.props.onRating(value)
-        this.setState({ value })
-    }
-
-    render() {
-        const { value } = this.state
-        const { size, color, max, disabled, total } = this.props
-        const starView = []
-        for (let i = 1; i <= max; i++) {
-            let source = null
-            if (i <= value) source = this.state.starBold
-            else if (i - value < 1) source = this.state.starHalf
-            else if (i - value >= 1) source = this.state.starTrans
-            starView.push(
+    return (
+        <View style={[{ flexDirection: 'row', alignItems: 'center' }, props.style]}>
+            {[...new Array(props.max)].map((i, index) => (
                 <Star
-                    key={i}
-                    disabled={!this.props.onPress || disabled}
-                    source={source}
-                    color={color}
-                    size={size}
-                    onPress={() => this.onSelect(i)}
+                    key={`${index}`}
+                    disabled={!props.onRating || props.disabled}
+                    source={(state.value - index >= 1) ? starBold : (state.value - index < 1 && state.value - index > 0) ? starHalf : starTrans}
+                    color={props.color}
+                    size={props.size}
+                    onPress={onSelect(index + 1)}
                 />
-            )
-        }
-        return (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {starView}
-                {total ? <Text style={{ fontSize: size, marginLeft: 5 }}>{`(${total})`}</Text> : null}
-            </View>
-        )
-    }
+            ))}
+
+            {props.total ? <Text style={{ fontSize: props.size, marginLeft: 5 }}>{`(${props.total})`}</Text> : null}
+        </View>
+    )
 }
 
 const Star = (props) => (
@@ -55,8 +41,8 @@ const Star = (props) => (
 )
 
 Rating.propTypes = {
-    containerStyle: ViewPropTypes.style,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    style: ViewPropTypes.style,
+    value: PropTypes.number,
     max: PropTypes.number,
     total: PropTypes.number,
     color: PropTypes.string,
@@ -64,11 +50,13 @@ Rating.propTypes = {
     disabled: PropTypes.bool,
     onRating: PropTypes.func
 }
+
 Rating.defaultProps = {
     max: 5,
     size: 16,
     value: 0,
-    color: '#FFAB40'
+    color: '#FFAB40',
+    onRating: () => { }
 }
 
 export default Rating

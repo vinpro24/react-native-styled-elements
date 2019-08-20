@@ -2,6 +2,7 @@ import React from 'react'
 import { Text, StyleSheet, TouchableOpacity, ViewPropTypes } from 'react-native'
 import PropTypes from 'prop-types'
 import iconTypes from '../Icon/iconTypes'
+import theme from '../../theme'
 
 const CheckBox = props => {
     const {
@@ -67,11 +68,11 @@ CheckBox.defaultProps = {
     right: false,
     center: false,
     iconType: 'MaterialIcons',
-    checkedColor: '#484848',
+    checkedColor: theme.colors.primary,
     uncheckedColor: '#bfbfbf',
     checkedIcon: 'radio-button-checked',
     uncheckedIcon: 'radio-button-unchecked',
-    size: 24,
+    size: 18,
     Component: TouchableOpacity,
 }
 
@@ -81,8 +82,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textStyle: {
-        marginLeft: 10,
-        marginRight: 10,
+        ...theme.text,
+        marginLeft: 8,
+        marginRight: 8,
         color: '#484848',
     }
 })

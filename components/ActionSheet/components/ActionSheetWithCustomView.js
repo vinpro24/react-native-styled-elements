@@ -3,7 +3,7 @@ import { Modal, View, Text, Animated, Dimensions, Easing } from 'react-native'
 
 const { height } = Dimensions.get('window')
 
-export default class ActionSheetModal extends React.Component {
+export default class ActionSheetWithCustomView extends React.Component {
     constructor(props) {
         super(props)
         this.translateY = new Animated.Value(-height)
@@ -30,7 +30,7 @@ export default class ActionSheetModal extends React.Component {
 
     hideSheet = () => {
         Animated.timing(this.translateY, {
-            toValue: -height, duration: 500
+            toValue: -height, duration: 500, easing: Easing.linear
         }).start(() => {
             this.props.onClose()
         })

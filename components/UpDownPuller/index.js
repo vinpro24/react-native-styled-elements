@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 class PullUp extends React.PureComponent {
     constructor(props) {
         super(props)
-        this.currHeight = props.miniHeight
+        this.currHeight = props.minHeight
         this.prevHeight = this.currHeight
         this.isMini = true
     }
@@ -21,13 +21,6 @@ class PullUp extends React.PureComponent {
 
     checkPanResponder(_, { dx, dy }) {
         const isPulling = (dy > 20 || dy < -20 || dx > 20 || dx < -20)
-        // if (!isPulling) {
-        //     if (this.isMini) {
-        //         this.showFull()
-        //     } else {
-        //         this.showMini()
-        //     }
-        // }
         return isPulling
     }
 
@@ -35,7 +28,6 @@ class PullUp extends React.PureComponent {
         this.prevHeight = this.currHeight
     }
     _onPanResponderMove(_, gestureState) {
-        console.log('_onPanResponderMove')
         if (gestureState.dy > 0) {
             // SWIPE DOWN
             const height = this.prevHeight - Math.abs(gestureState.dy)
@@ -61,7 +53,7 @@ class PullUp extends React.PureComponent {
     }
 
     showMini() {
-        this.updateNativeProps({ style: { top: null, height: this.props.miniHeight } })
+        this.updateNativeProps({ style: { top: null, height: this.props.minHeight } })
         this.props.onPullDown()
         this.isMini = true
     }
@@ -81,8 +73,8 @@ class PullUp extends React.PureComponent {
         return (
             <View
                 ref={c => (this.containerView = c)}
-                {...this._panResponder.panHandlers} 
-                style={[styles.container, containerStyle, { height: this.props.miniHeight }]}
+                {...this._panResponder.panHandlers}
+                style={[styles.container, containerStyle, { height: this.props.minHeight }]}
                 onLayout={e => {
                     this.currHeight = e.nativeEvent.layout.height
                 }}
@@ -101,7 +93,7 @@ class PullUp extends React.PureComponent {
 }
 
 PullUp.propTypes = {
-    miniHeight: PropTypes.number,
+    minHeight: PropTypes.number,
     top: PropTypes.number,
     containerStyle: ViewPropTypes.style,
     onPullDown: PropTypes.func,
@@ -109,7 +101,7 @@ PullUp.propTypes = {
 }
 
 PullUp.defaultProps = {
-    miniHeight: 200,
+    minHeight: 200,
     top: 60,
     containerStyle: {},
     onPullDown: () => { },

@@ -1,50 +1,44 @@
 import React from 'react'
-import { Platform, View, TouchableOpacity, TimePickerAndroid, DatePickerAndroid } from 'react-native'
+import { Platform, View, TouchableOpacity, TimePickerAndroid, DatePickerAndroid, ViewPropTypes } from 'react-native'
+import PropTypes from 'prop-types'
+
 import DatePickerModal from './components/DatePickerModal'
 
-export default class DatePicker extends React.PureComponent {
-    state = {
-        visible: false
+const DatePicker = props => {
+    const [state, setState] = React.useState({
+        visible: false,
+    })
+
+    const onClose = () => {
+        setState({ ...state, visible: false })
     }
 
-    onPress = () => {
+    const onShow = () => {
         if (Platform.OS === 'ios') {
-            this.setState({ visible: true })
+            setState({ ...state, visible: true })
         } else {
-            this.androidDatePicker()
+            androidDatePicker()
         }
     }
 
-    onClose = () => {
-        this.setState({ visible: false })
-    }
-
-    onDateChange = (date) => {
-        if (this.props.onDateChange) {
-            this.props.onDateChange(date)
-        }
-    }
-
-    async androidDatePicker() {
+    const androidDatePicker = async () => {
         try {
-            if (this.props.mode === 'time') {
+            if (props.mode === 'time') {
                 const { action, hour, minute } = await TimePickerAndroid.open({
-                    hour: 14,
-                    minute: 0,
-                    is24Hour: true // Will display '2 PM'
+                    hour: props.date.getHours(), minute: 0, is24Hour: true
                 })
                 if (action !== TimePickerAndroid.dismissedAction) {
                     const date = new Date()
                     date.setHours(hour, minute)
-                    this.onDateChange(date)
+                    props.onChange(date)
                 }
             } else {
                 const { action, year, month, day } = await DatePickerAndroid.open({
-                    date: this.props.value || new Date()
+                    date: props.value
                 })
                 if (action !== DatePickerAndroid.dismissedAction) {
                     const date = new Date(year, month, day)
-                    this.onDateChange(date)
+                    props.onChange(date)
                 }
             }
         } catch ({ code, message }) {
@@ -52,27 +46,37 @@ export default class DatePicker extends React.PureComponent {
         }
     }
 
-    render() {
-        const { visible } = this.state
-        const { mode, value = new Date() } = this.props
-        return (
-            <View>
-                <TouchableOpacity onPress={this.onPress}>
-                    {this.props.children}
-                </TouchableOpacity>
-                {
-                    Platform.OS === 'ios' ? (
-                        <DatePickerModal
-                            visible={visible}
-                            mode={mode}
-                            onClose={this.onClose}
-                            onDateChange={this.onDateChange}
-                            value={value}
-                        />
-                    ) : null
-                }
+    return (
+        <View>
+            <TouchableOpacity onPress={onShow} style={props.style}>
+                {props.children}
+            </TouchableOpacity>
+            {
+                Platform.OS === 'ios' ? (
+                    <DatePickerModal
+                        visible={state.visible}
+                        mode={props.mode}
+                        onClose={onClose}
+                        onDateChange={props.onChange}
+                        value={props.value}
+                    />
+                ) : null
+            }
 
-            </View>
-        )
-    }
+        </View>
+    )
 }
+
+DatePicker.propTypes = {
+    style: ViewPropTypes.style,
+    onChange: PropTypes.func,
+    mode: PropTypes.oneOf(['date', 'datetime', 'time']),
+    value: PropTypes.object,
+}
+
+DatePicker.defaultProps = {
+    mode: 'datetime',
+    value: new Date()
+}
+
+export default DatePicker

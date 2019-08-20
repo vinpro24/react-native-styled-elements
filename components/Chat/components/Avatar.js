@@ -1,10 +1,21 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 
-const Avatar = props => {
-    return (
-        <Image source={{ uri: props.avatar }} style={props.style} />
-    )
+function Avatar(props) {
+    if (props.hidden) {
+        return <View style={[styles.avatar, props.style]} />
+    }
+    return <Image source={{ uri: props.avatar }} style={[styles.avatar, props.style]} />
 }
 
-export default Avatar
+const styles = {
+    avatar: {
+        margin: 10,
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        alignSelf: 'flex-end'
+    }
+}
+
+export default React.memo(Avatar)

@@ -1,123 +1,118 @@
 import React from 'react'
-import { TextInput, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { View, Text, TextInput, ViewPropTypes, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import theme from '../../theme'
+import Icon from '../Icon'
 
-export default class Input extends React.Component {
-    static propTypes = {
-        onChangeText: PropTypes.func,
-        title: PropTypes.string
-    }
+const Input = props => {
+    const { containerStyle, label, labelStyle, inputStyle, inputContainerStyle, InputComponent, leftIcon, rightIcon, iconContainerStyle, leftIconContainerStyle, errorProps, errorMessage, errorStyle } = props
 
-    shouldComponentUpdate(nextProps) {
-        if (nextProps.value !== this.props.value) {
-            return true
-        }
-        return false
-    }
+    return (
+        <View style={StyleSheet.flatten([styles.container, containerStyle])}>
+            {label && <Text style={StyleSheet.flatten([styles.label, labelStyle])}>{label}</Text>}
+            <View
+                style={StyleSheet.flatten([
+                    styles.inputContainer,
+                    inputContainerStyle
+                ])}
+            >
+                {
+                    leftIcon && (
+                        <View style={StyleSheet.flatten([styles.iconContainer, iconContainerStyle, leftIconContainerStyle])}>
+                            {typeof leftIcon === 'function' ? <leftIcon /> : <Icon name={leftIcon.name} size={leftIcon.size} color={leftIcon.color} />}
+                        </View>
+                    )
+                }
 
-    onChangeText = (text) => {
-        if (this.typingTimer) {
-            clearTimeout(this.typingTimer)
-            this.typingTimer = null
-        }
-        this.typingTimer = setTimeout(() => {
-            clearTimeout(this.typingTimer)
-            this.typingTimer = null
-            this.props.onChangeText && this.props.onChangeText(text)
-        }, 700)
-    }
+                <InputComponent
+                    testID="RNSE__Input__text-input"
+                    underlineColorAndroid="transparent"
+                    {...props}
+                    style={StyleSheet.flatten([styles.input, inputStyle])}
+                />
 
-    renderTitle = () => {
-        const { titleStyle, title } = this.props
-        if (!title) null
-        return (
-            <Text style={[styles.title, titleStyle]}>{title}</Text>
-        )
-    }
-
-    renderWarning = () => {
-        if (this.props.valid && !this.props.valid.test(`${this.props.value}`.toLowerCase())) {
-            return (
-                <Text style={{ color: 'red', fontSize: 13, height: 10, marginHorizontal: 5 }}>*</Text>
-            )
-        }
-        return null
-    }
-
-    clear = () => {
-        this.textInput.clear()
-        this.textInput.setNativeProps({ text: '' })
-        this.props.onChangeText && this.props.onChangeText('')
-    }
-
-    render() {
-        const { value, textInputStyle, containerStyle, multiline, placeholder } = this.props
-        return (
-            <View style={[styles.container, containerStyle]}>
-
-                {this.renderTitle()}
-
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingVertical: 5 }}>
-                    <TextInput
-                        ref={c => (this.textInput = c)}
-                        style={[styles.textInput, textInputStyle]}
-                        underlineColorAndroid={'transparent'}
-                        onChangeText={this.onChangeText}
-                        defaultValue={`${value}`}
-                        multiline={multiline || false}
-                        placeholder={placeholder || ''}
-                    />
-
-                    {this.renderWarning()}
-
-                    <TouchableOpacity
-                        onPress={this.clear}
-                        style={[styles.clearButton, { display: value && value.length ? 'flex' : 'none' }]}
-                    >
-                        <Text style={{ fontSize: 14, lineHeight: 14, color: '#fff' }}>×</Text>
-                    </TouchableOpacity>
-                </View>
-
+                {
+                    rightIcon && (
+                        <View style={StyleSheet.flatten([styles.iconContainer, iconContainerStyle, rightIconContainerStyle])}>
+                            {typeof rightIcon === 'function' ? <leftIcon /> : <Icon name={rightIcon.name} size={rightIcon.size} color={rightIcon.color} />}
+                        </View>
+                    )
+                }
             </View>
-        )
-    }
+
+            <Text
+                {...errorProps}
+                style={StyleSheet.flatten([styles.error, errorStyle])}
+            >
+                {errorMessage}
+            </Text>
+
+        </View>
+    )
 }
 
-const styles = {
+const styles = StyleSheet.create({
     container: {
-        paddingVertical: 7,
-        marginVertical: 10,
-        borderColor: '#8E8E93',
-        borderBottomWidth: StyleSheet.hairlineWidth
+        width: '100%'
     },
-    title: {
-        backgroundColor: 'transparent',
-        fontFamily: 'System',
-        fontSize: 13,
-        color: '#000000',
-        fontWeight: '400',
-        lineHeight: 13,
-        letterSpacing: -0.078
+    label: {
+        ...theme.footnote,
+        color: theme.colors.grey3
     },
-    textInput: {
+    input: {
+        ...theme.body,
         flex: 1,
-        paddingVertical: 0,
-        color: '#484848',
-        fontSize: 17,
-        fontWeight: '400',
-        fontFamily: 'Verdana',
-        textAlignVertical: 'top'
+        minHeight: 40,
     },
-    clearButton: {
-        display: 'none',
-        width: 14,
-        height: 14,
-        borderRadius: 14,
-        backgroundColor: 'grey',
-        alignSelf: 'flex-start',
+    inputContainer: {
+        flexDirection: 'row',
+        borderBottomWidth: StyleSheet.hairlineWidth,
         alignItems: 'center',
+        borderColor: theme.colors.grey3,
+    },
+    iconContainer: {
+        width: 40,
+        height: 40,
         justifyContent: 'center',
-        marginHorizontal: 10,
-        marginTop: 5
-    }
+        alignItems: 'center',
+    },
+    error: {
+        margin: 5,
+        fontSize: 11,
+        color: theme.colors.error,
+    },
+})
+
+Input.propTypes = {
+    containerStyle: ViewPropTypes.style,
+    iconContainerStyle: ViewPropTypes.style,
+    leftIconContainerStyle: ViewPropTypes.style,
+    rightIconContainerStyle: ViewPropTypes.style,
+    errorMessage: PropTypes.string,
+    label: PropTypes.string,
+    labelStyle: Text.propTypes.style,
+    inputStyle: TextInput.propTypes.style,
+    InputComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    leftIcon: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.object,
+        PropTypes.element,
+        PropTypes.shape({ type: PropTypes.string, name: PropTypes.string, size: PropTypes.number, color: PropTypes.string })
+    ]),
+    rightIcon: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.object,
+        PropTypes.element,
+        PropTypes.shape({ type: PropTypes.string, name: PropTypes.string, size: PropTypes.number, color: PropTypes.string })
+    ]),
+    value: PropTypes.string,
+    onChangeText: PropTypes.func,
+    multiline: PropTypes.bool,
+    onFocus: PropTypes.func,
 }
+
+Input.defaultProps = {
+    InputComponent: TextInput,
+}
+
+export default Input

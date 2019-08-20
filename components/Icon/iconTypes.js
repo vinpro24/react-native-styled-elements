@@ -13,6 +13,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import FontAwesome5Pro from 'react-native-vector-icons/FontAwesome5Pro'
+import Fontisto from 'react-native-vector-icons/Fontisto'
 
 const customIcons = {};
 
@@ -23,7 +24,7 @@ export const registerCustomIconType = (id, customIcon) => {
 export default type => {
     switch (type) {
         case 'ant-design':
-            return ZocialIcon;
+            return AntDesign;
         case 'AntDesign':
             return AntDesign;
         case 'zocial':
@@ -56,7 +57,7 @@ export default type => {
             return EvilIcon;
         case 'entypo':
             return EntypoIcon;
-        case 'EntypoIcons':
+        case 'EntypoIcon':
             return EntypoIcon;
         case 'font-awesome':
             return FAIcon;
@@ -76,6 +77,8 @@ export default type => {
             return FontAwesome5;
         case 'FontAwesome5Pro':
             return FontAwesome5Pro;
+        case 'Fontisto':
+            return Fontisto;
         default:
             if (customIcons.hasOwnProperty(type)) {
                 return customIcons[type];

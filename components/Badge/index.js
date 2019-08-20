@@ -3,14 +3,14 @@ import { Text, View, ViewPropTypes, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types';
 
 const Badge = props => {
-    const { containerStyle, textStyle, size, value, hidden, onPress } = props
+    const { style, textStyle, size, value, hidden, onPress } = props
 
     if (hidden) return null
-
+    const Component = onPress ? TouchableOpacity : View
     return (
-        <TouchableOpacity onPress={onPress} disabled={!onPress} style={[styles.containerStyle, containerStyle, { minWidth: size, height: size, borderRadius: size / 2 }]}>
+        <Component onPress={onPress} disabled={!onPress} style={[styles.containerStyle, style, { minWidth: size, height: size, borderRadius: size / 2 }]}>
             <Text style={[styles.textStyle, textStyle, { fontSize: size * 0.6 }]}>{value}</Text>
-        </TouchableOpacity>
+        </Component>
     )
 }
 
@@ -30,9 +30,8 @@ const styles = {
 }
 
 Badge.propTypes = {
-    containerStyle: ViewPropTypes || View.propTypes,
-    wrapperStyle: ViewPropTypes || View.propTypes,
-    textStyle: ViewPropTypes || View.propTypes,
+    style: ViewPropTypes.style,
+    textStyle: Text.propTypes.style,
     onPress: PropTypes.func,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     children: PropTypes.oneOfType([

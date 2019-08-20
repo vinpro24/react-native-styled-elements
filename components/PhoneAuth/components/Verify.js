@@ -9,6 +9,9 @@ export default class VerifyCode extends React.PureComponent {
         super()
         this.unmouted = false
         this.animSearchIcon = new Animated.ValueXY({ x: 28, y: 28 })
+        this.state = {
+            status: 'verifying'
+        }
     }
 
     componentDidMount() {
@@ -26,15 +29,27 @@ export default class VerifyCode extends React.PureComponent {
             Animated.spring(this.animSearchIcon, { toValue: { x: 0, y: (phoneImageHeight * 0.08) } })
         ]).start(() => {
             setTimeout(() => {
-                if (!this.unmouted && this.props.status === 'verifycode') {
+                if (!this.unmouted && this.state.status === 'verifying') {
                     this.anim()
                 }
             }, 500)
         })
     }
 
+    onSuccess = (cb) => {
+        this.setState({ status: 'verify-success' }, () => {
+            setTimeout(cb, 2000)
+        })
+    }
+
+    onFailed = (cb) => {
+        this.setState({ status: 'verify-failed' }, () => {
+            setTimeout(cb, 3000)
+        })
+    }
+
     render() {
-        const { status } = this.props
+        const { status } = this.state
         return (
             <ImageBackground source={require('../assets/bg-verify.png')} style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
                 <View
@@ -48,8 +63,8 @@ export default class VerifyCode extends React.PureComponent {
                     </ImageBackground>
                 </View>
                 {
-                    status === 'verified' ? (
-                        <View style={{ width: 200, justifyContent: 'center', alignItems: 'center' }}>
+                    status === 'verify-success' ? (
+                        <View style={{ width: 250, justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ fontSize: 18, fontWeight: '500', color: '#FB524A', marginVertical: 16 }}>Awesome!</Text>
                             <Text style={{ fontSize: 14, fontWeight: '400', color: '#616567', textAlign: 'center' }}>Your phone number has been verified successfully.</Text>
                         </View>
@@ -58,9 +73,9 @@ export default class VerifyCode extends React.PureComponent {
 
                 {
                     status === 'verify-failed' ? (
-                        <View style={{ width: 200, justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ width: 250, justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ fontSize: 18, fontWeight: '500', color: '#484848', marginVertical: 16 }}>Oops!</Text>
-                            <Text style={{ fontSize: 14, fontWeight: '400', color: '#616567', textAlign: 'center' }}>Your phone number wasn't verified.</Text>
+                            <Text style={{ fontSize: 14, fontWeight: '400', color: '#616567', textAlign: 'center' }}>{'Your phone number wasn\'t verified.'}</Text>
                         </View>
                     ) : null
                 }
