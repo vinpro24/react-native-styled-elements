@@ -61,6 +61,8 @@ export default type => {
             return EntypoIcon;
         case 'font-awesome':
             return FAIcon;
+        case 'Fontisto':
+            return Fontisto;
         case 'FAIcons':
             return FAIcon;
         case 'simple-line-icon':
@@ -77,8 +79,6 @@ export default type => {
             return FontAwesome5;
         case 'FontAwesome5Pro':
             return FontAwesome5Pro;
-        case 'Fontisto':
-            return Fontisto;
         default:
             if (customIcons.hasOwnProperty(type)) {
                 return customIcons[type];
