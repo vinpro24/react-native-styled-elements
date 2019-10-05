@@ -4,13 +4,7 @@
     "description": "The UI Toolkit for React Native(iOS/Android)",
     "main": "index.js",
     "files": [
-        "README.md",
-        "index.js",
-        "package.json",
-        "components",
-        "utils",
-        "static",
-        "theme"
+        "*"
     ],
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
