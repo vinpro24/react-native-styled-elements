@@ -57,7 +57,7 @@ export default type => {
             return EvilIcon;
         case 'entypo':
             return EntypoIcon;
-        case 'EntypoIcon':
+        case 'Entypo':
             return EntypoIcon;
         case 'font-awesome':
             return FAIcon;

@@ -30,7 +30,7 @@ const styles = {
 
 Icon.propTypes = {
     style: ViewPropTypes.style,
-    type: PropTypes.oneOf(['AntDesign', 'ZocialIcons', 'OcticIcons', 'MaterialIcons', 'MaterialCommunityIcons', 'Ionicons', 'Fontisto', 'FoundationIcons', 'EvilIcon', 'Entypo', 'FAIcons', 'SimpleLineIcons', 'FeatherIcons', 'FontAwesome', 'FontAwesome5', 'FontAwesome5Pro', 'ant-design', 'zocial', 'octicon', 'font-awesome', 'material', 'material-community', 'ionicon', 'foundation', 'simple-line-icon', 'feather', 'entypo']),
+    type: PropTypes.oneOf(['AntDesign', 'ZocialIcons', 'OcticIcons', 'MaterialIcons', 'MaterialCommunityIcons', 'Ionicons', 'Fontisto', 'FoundationIcons', 'EvilIcons', 'Entypo', 'FAIcons', 'SimpleLineIcons', 'Feather', 'FontAwesome', 'FontAwesome5', 'FontAwesome5Pro', 'ant-design', 'zocial', 'octicon', 'font-awesome', 'material', 'material-community', 'ionicon', 'foundation', 'simple-line-icon', 'feather', 'entypo']),
     onPress: PropTypes.func,
     onLongPress: PropTypes.func,
     name: PropTypes.string,

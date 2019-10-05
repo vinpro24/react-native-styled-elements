@@ -1,92 +1,118 @@
-import React from 'react'
-import { TouchableOpacity, Text, Image, View, Modal, SafeAreaView } from 'react-native'
+import React from 'react';
+import { Text, StyleSheet, Modal, ScrollView, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
+import Theme from '../../theme';
+import PropTypes from 'prop-types';
 
-import InputPhone from './components/InputPhone'
-import Verify from './components/Verify'
+import Header from './components/Header';
+import Footer from './components/Footer';
+import PhoneInput from './components/PhoneInput';
+import CodeInput from './components/CodeInput';
 
-export default class PhoneAuth extends React.PureComponent {
-    state = {
+const PhoneAuth = props => {
+    const [state, setState] = React.useState({
         visible: false,
+        phone: '',
+        code: '',
+        error: null,
+        loading: false,
         verifying: false,
-        phone: ''
-    }
+    });
+    const handleChange = name => value => {
+        setState(prevState => ({ ...prevState, [name]: value, error: null }));
+    };
 
-    sendSuccess = () => {
-        this.refInputPhone.onSendSuccess()
-    }
+    const show = () => {
+        setState(prevState => ({ ...prevState, visible: true }));
+    };
+    const dismiss = () => {
+        setState(prevState => ({ ...prevState, visible: false }));
+    };
 
-    sendFailed = () => {
-        this.refInputPhone.onSendFailed()
-    }
+    const send = () => {
+        setState(prevState => ({ ...prevState, loading: true }));
+        props.onSend(state.phone).then(res => {
+            setState(prevState => ({ ...prevState, loading: false, verifying: true }));
+        }).catch(e => {
+            setState(prevState => ({ ...prevState, loading: false, error: 'We were unable to complete your request. Please try again.' }));
+        });
+    };
 
-    verifySuccess = (cb) => {
-        this.refVerify.onSuccess(() => {
-            if (cb) cb()
-            if (this.props.onSuccess) {
-                this.props.onSuccess(this.state.phone)
-            }
-        })
+    const onVerify = () => {
+        setState(prevState => ({ ...prevState, loading: true }));
+        props.onVerify(state.code).then(res => {
+            setState(prevState => ({ ...prevState, visible: false, loading: false, verifying: true, error: '' }));
+        }).catch(e => {
+            setState(prevState => ({ ...prevState, loading: false, error: 'The SMS passcode you\'ve entered is incorrect.' }));
+        });
+    };
 
-    }
+    const reset = () => {
+        setState(prevState => ({ ...prevState, loading: false, verifying: false, error: '' }));
+    };
 
-    verifyFailed = () => {
-        this.refVerify.onFailed(() => {
-            this.setState({
-                verifying: false
-            })
-        })
-    }
-
-    onPress = () => {
-        this.setState(state => ({ visible: !state.visible }))
-    }
-
-    onSend = phone => {
-        this.state.phone = phone
-        if (this.props.onSend) this.props.onSend(phone)
-    }
-
-    onVerify = code => {
-        if (this.props.onVerify) this.props.onVerify(code)
-        this.setState({ verifying: true })
-    }
-
-    render() {
-        const { visible, verifying } = this.state
-
-        return (
-            <View>
-                <TouchableOpacity onPress={this.onPress}>
-                    {this.props.children}
-                </TouchableOpacity>
-                <Modal visible={visible} onRequestClose={this.onPress}>
-                    <Image source={require('./assets/bg-input.png')} style={{ width: null, height: null, position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, resizeMode: 'stretch' }} />
-
-                    <SafeAreaView style={{ flex: 1 }}>
-                        <Text style={{ marginVertical: 8, marginRight: 16, height: 34, fontSize: 34, color: '#484848', alignSelf: 'flex-end' }} onPress={this.onPress}>×</Text>
-                        <InputPhone
-                            ref={c => { this.refInputPhone = c }}
-                            onSend={this.onSend}
-                            onVerify={this.onVerify}
+    return (
+        <>
+            <TouchableOpacity style={props.style} onPress={show}>
+                {props.children}
+            </TouchableOpacity>
+            <Modal
+                animationType="slide"
+                visible={state.visible}
+                onRequestClose={dismiss}
+            >
+                <SafeAreaView style={styles.container}>
+                    <Header onDismiss={dismiss} />
+                    <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: null })} style={styles.container}>
+                        <ScrollView style={styles.body}>
+                            {state.verifying ?
+                                <CodeInput phone={state.phone} verifying={state.verifying} onChange={handleChange('code')} />
+                                :
+                                <PhoneInput country_code={props.country_code} onChange={handleChange('phone')} />
+                            }
+                            {state.error ? <Text style={styles.error}>{state.error}</Text> : null}
+                        </ScrollView>
+                        <Footer
+                            onSend={send}
+                            onVerify={onVerify}
+                            onReset={reset}
+                            phone={state.phone}
+                            loading={state.loading}
+                            verifying={state.verifying}
                         />
-                    </SafeAreaView>
+                    </KeyboardAvoidingView>
+                </SafeAreaView>
+            </Modal>
+        </>
+    );
+};
 
-                    <View
-                        style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}
-                        pointerEvents="none"
-                    >
-                        {verifying ? <Verify ref={c => { this.refVerify = c }} /> : null}
-                    </View>
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F9FBFF',
+    },
+    body: {
+        flex: 1,
+        paddingHorizontal: 16,
+    },
 
-                </Modal>
-                {/* <PhoneAuthModal
-                    ref={c => { this.phoneAuthModal = c }}
-                    visible={visible}
-                    onClose={this.onClose}
-                    onSendPhone={this.props.onSendPhone}
-                    onSendCode={this.props.onSendCode}
-                /> */}
-            </View>
-        )
-    }
-}
+    error: {
+        ...Theme.footnote,
+        color: 'red',
+        marginVertical: 8,
+    },
+});
+
+PhoneAuth.propTypes = {
+    country_code: PropTypes.string,
+    button: PropTypes.oneOfType([PropTypes.element, PropTypes.object, PropTypes.func]),
+    onSend: PropTypes.func,
+    onVerify: PropTypes.func,
+};
+PhoneAuth.defaultProps = {
+    country_code: 'VN',
+    onSend: () => new Promise((resolve, reject) => reject()),
+    onVerify: () => new Promise((resolve, reject) => resolve()),
+};
+
+export default React.memo(PhoneAuth);

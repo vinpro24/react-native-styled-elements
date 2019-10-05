@@ -47,7 +47,6 @@ const styles = {
         borderColor: theme.colors.primary,
         ...Platform.select({
             android: {
-                elevation: 4,
                 borderRadius: 2,
             },
         }),

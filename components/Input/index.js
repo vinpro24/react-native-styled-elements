@@ -10,6 +10,7 @@ const Input = props => {
     return (
         <View style={StyleSheet.flatten([styles.container, containerStyle])}>
             {label && <Text style={StyleSheet.flatten([styles.label, labelStyle])}>{label}</Text>}
+
             <View
                 style={StyleSheet.flatten([
                     styles.inputContainer,
@@ -92,6 +93,8 @@ Input.propTypes = {
     label: PropTypes.string,
     labelStyle: Text.propTypes.style,
     inputStyle: TextInput.propTypes.style,
+    keyboardType: PropTypes.string,
+    inputContainerStyle: ViewPropTypes.style,
     InputComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
     leftIcon: PropTypes.oneOfType([
         PropTypes.func,
@@ -108,7 +111,9 @@ Input.propTypes = {
     value: PropTypes.string,
     onChangeText: PropTypes.func,
     multiline: PropTypes.bool,
+    secureTextEntry: PropTypes.bool,
     onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
 }
 
 Input.defaultProps = {

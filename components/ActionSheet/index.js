@@ -4,13 +4,14 @@ import PropTypes from 'prop-types'
 
 import ActionSheetWithOptions from './components/ActionSheetWithOptions'
 import ActionSheetWithCustomView from './components/ActionSheetWithCustomView'
+import ActionSheetListType from './components/ActionSheetListType'
 
 const ActionSheet = React.forwardRef((props, ref) => {
     const [state, setState] = React.useState({ visible: false })
 
     const show = () => setState({ visible: true })
 
-    const dismiss = (cb) => {
+    const dismiss = () => {
         setState({ visible: false })
     }
 
@@ -31,8 +32,17 @@ const ActionSheet = React.forwardRef((props, ref) => {
             <TouchableOpacity onPress={show}>
                 {props.button || props.buttonComponent || (props.options && props.children)}
             </TouchableOpacity>
+
             {
-                props.options ? (
+                props.options && props.type === 'list' ? (
+                    <ActionSheetListType
+                        visible={state.visible}
+                        onClose={dismiss}
+                        onSelected={onSelected}
+                        options={props.options}
+                        title={props.title}
+                    />
+                ) : props.options ? (
                     <ActionSheetWithOptions
                         visible={state.visible}
                         onClose={dismiss}
@@ -41,14 +51,14 @@ const ActionSheet = React.forwardRef((props, ref) => {
                         title={props.title}
                     />
                 ) : (
-                        <ActionSheetWithCustomView
-                            visible={state.visible}
-                            onClose={dismiss}
-                            onSelected={onSelected}
-                            contentView={props.children}
-                            title={props.title}
-                        />
-                    )
+                            <ActionSheetWithCustomView
+                                visible={state.visible}
+                                onClose={dismiss}
+                                onSelected={onSelected}
+                                contentView={props.children}
+                                title={props.title}
+                            />
+                        )
             }
 
         </View>
@@ -60,11 +70,13 @@ ActionSheet.propTypes = {
     button: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.object]),
     options: PropTypes.array,
     onSelected: PropTypes.func,
-    title: PropTypes.string
+    title: PropTypes.string,
+    type: PropTypes.oneOf('list', 'none'),
 }
 
 ActionSheet.defaultProps = {
-    onSelected: () => { }
+    onSelected: () => { },
+    type: 'none'
 }
 
 export default ActionSheet

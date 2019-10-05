@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 
 const config = {
-    fontFamily: Platform.select({ ios: 'Verdana', android: 'System' }),
+    fontFamily: Platform.select({ ios: 'Verdana', android: 'Roboto' }),
     fontWeight: {
         Thin: "100",
         UltraLight: "200",

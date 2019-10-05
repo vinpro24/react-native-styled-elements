@@ -75,6 +75,8 @@ function ListView(props) {
             ListHeaderComponent={props.ListHeaderComponent}
             disableVirtualization={props.disableVirtualization}
             removeClippedSubviews={props.removeClippedSubviews}
+            showsHorizontalScrollIndicator={props.showsHorizontalScrollIndicator}
+            showsVerticalScrollIndicator={props.showsVerticalScrollIndicator}
             initialNumToRender={props.initialNumToRender}
             maxToRenderPerBatch={props.maxToRenderPerBatch}
             windowSize={props.maxToRenderPerBatch}
@@ -95,6 +97,8 @@ ListView.defaultProps = {
     ListHeaderComponent: null,
     disableVirtualization: false,
     removeClippedSubviews: true,
+    showsHorizontalScrollIndicator: false,
+    showsVerticalScrollIndicator: false,
     initialNumToRender: 20,
     maxToRenderPerBatch: 20,
     windowSize: 101,
@@ -104,13 +108,15 @@ ListView.defaultProps = {
 ListView.propTypes = {
     style: ViewPropTypes.style,
     data: PropTypes.array,
-    renderItem: PropTypes.oneOf(PropTypes.func, PropTypes.element, PropTypes.object),
+    renderItem: PropTypes.oneOf([PropTypes.func, PropTypes.element, PropTypes.object]),
     page: PropTypes.number,
     numColumns: PropTypes.number,
     keyExtractor: PropTypes.func,
     onEndReachedThreshold: PropTypes.number,
     disableVirtualization: PropTypes.bool,
     removeClippedSubviews: PropTypes.bool,
+    showsHorizontalScrollIndicator: PropTypes.bool,
+    showsVerticalScrollIndicator: PropTypes.bool,
     initialNumToRender: PropTypes.number,
     maxToRenderPerBatch: PropTypes.number,
     windowSize: PropTypes.number,

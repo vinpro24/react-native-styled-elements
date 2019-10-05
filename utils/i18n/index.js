@@ -13,10 +13,22 @@ function getDeviceLocale() {
     } catch (e) {
         if (Platform.OS === 'ios') {
             if (NativeModules.SettingsManager) {
-                return NativeModules.SettingsManager.settings.AppleLocale
+                let locale = NativeModules.SettingsManager.settings.AppleLocale // "fr_FR"
+                if (locale === undefined) {
+                    // iOS 13 workaround, take first of AppleLanguages array  ["en", "en-NZ"]
+                    locale = NativeModules.SettingsManager.settings.AppleLanguages[0]
+                    if (locale == undefined) {
+                        locale = "en-US" // default language
+                    }
+                }
+                return locale
             }
         } else if (Platform.OS === 'android') {
-            return NativeModules.I18nManager.localeIdentifier
+            let locale = NativeModules.I18nManager.localeIdentifier
+            if (locale == undefined) {
+                locale = "en-US" // default language
+            }
+            return locale
         }
         return 'en-US'
     }

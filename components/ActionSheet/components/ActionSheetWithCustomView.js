@@ -2,6 +2,7 @@ import React from 'react'
 import { Modal, View, Text, Animated, Dimensions, Easing } from 'react-native'
 
 const { height } = Dimensions.get('window')
+import theme from '../../../theme'
 
 export default class ActionSheetWithCustomView extends React.Component {
     constructor(props) {
@@ -37,7 +38,7 @@ export default class ActionSheetWithCustomView extends React.Component {
     }
 
     render() {
-        const { visible, contentView } = this.props
+        const { visible, contentView, title } = this.props
         return (
             <Modal
                 animationType="fade"
@@ -49,6 +50,7 @@ export default class ActionSheetWithCustomView extends React.Component {
                 <View style={styles.overlay}>
                     <Text style={{ flex: 1 }} onPress={this.close} />
                     <Animated.View style={[styles.container, { bottom: this.translateY }]}>
+                        {title ? <Text style={styles.title}>{title}</Text> : null}
                         {contentView}
                     </Animated.View>
                 </View>
@@ -76,5 +78,12 @@ const styles = {
         color: '#222222',
         fontSize: 15,
         textAlign: 'center'
-    }
+    },
+    title: {
+        ...theme.subtitle,
+        color: '#222',
+        fontWeight: '400',
+        textAlign: 'center',
+        backgroundColor: 'transparent'
+    },
 }

@@ -74,7 +74,7 @@ Chat.propTypes = {
     keyExtractor: PropTypes.func,
     data: PropTypes.array,
     disable: PropTypes.bool,
-    action: PropTypes.oneOfType(PropTypes.object, PropTypes.array),
+    action: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     user: PropTypes.shape({
         _id: PropTypes.string,
         name: PropTypes.string,
