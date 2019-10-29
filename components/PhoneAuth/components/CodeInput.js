@@ -2,10 +2,8 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Theme from '../../../theme';
 
-const CodeInput = ({ country_code, phone, onChange }) => {
-    const countries = require('../assets/countries.json');
+const CodeInput = ({ country, phone, onChange, text }) => {
     const [state, setState] = React.useState({
-        country: countries.find(i => i.code === country_code),
         code: '',
     });
 
@@ -21,13 +19,12 @@ const CodeInput = ({ country_code, phone, onChange }) => {
 
     const bottom = [];
     for (let index = 0; index < state.code.length; index++) {
-        // const element = array[index];
         bottom.push(<View key={state.code[index]} style={{ height: 2, width: 30, marginRight: 10, backgroundColor: '#e2eaec' }} />);
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Enter the 4-digit code sent to you at {phone}</Text>
+            <Text style={styles.title}>{text.verify_phone} {`${country.dial_code}${phone}`}</Text>
             <TextInput
                 style={styles.textInput}
                 underlineColorAndroid="transparent"

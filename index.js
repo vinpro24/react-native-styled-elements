@@ -30,7 +30,6 @@ import ListView from './components/ListView'
 import ListItem from './components/ListItem'
 import SwipeableItem from './components/SwipeableItem'
 import PhoneAuth from './components/PhoneAuth'
-import Chat from './components/Chat'
 import CreditCardInput from './components/CreditCardInput'
 import LightBox from './components/LightBox'
 
@@ -55,7 +54,6 @@ export {
     ListItem,
     SwipeableItem,
     PhoneAuth,
-    Chat,
     Theme,
     setDefaultTextProps,
     setDefaultTextStyle,

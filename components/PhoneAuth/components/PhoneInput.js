@@ -3,20 +3,23 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Theme from '../../../theme';
 import CountryPicker from './CountryPicker';
 
-const PhoneInput = ({ country_code, onChange }) => {
+const PhoneInput = ({ onPhoneInput, phone, country_code, text }) => {
     const countries = require('../assets/countries.json');
     const [state, setState] = React.useState({
         country: countries.find(i => i.code === country_code),
-        phone: '',
+        phone,
     });
     const textInputRef = React.useRef()
 
     React.useEffect(() => {
+        setTimeout(() => textInputRef.current.focus(), 300)
+    }, []);
+
+    React.useEffect(() => {
         if (state.phone.length > 8 || state.phone.length === 6) {
-            onChange(`${state.country.dial_code}${state.phone}`);
+            onPhoneInput(state)
         }
-        setTimeout(() => textInputRef.current.focus(), 150)
-    }, [, state.phone]);
+    }, [state]);
 
     const onChangeText = phone => {
         setState({ ...state, phone });
@@ -28,7 +31,7 @@ const PhoneInput = ({ country_code, onChange }) => {
 
     return (
         <>
-            <Text style={styles.title}>Enter your phone number</Text>
+            <Text style={styles.title}>{text.input_phone}</Text>
 
             <View style={styles.container}>
                 <CountryPicker onSelected={onChangeCountry}>
@@ -38,7 +41,6 @@ const PhoneInput = ({ country_code, onChange }) => {
                         <Text style={styles.country}>{state.country.dial_code}</Text>
                     </View>
                 </CountryPicker>
-
                 <TextInput
                     ref={textInputRef}
                     style={styles.textInput}
@@ -47,7 +49,6 @@ const PhoneInput = ({ country_code, onChange }) => {
                     keyboardType="phone-pad"
                     placeholder="0123456789"
                     value={state.phone}
-                    autoFocus
                 />
             </View>
         </>

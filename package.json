@@ -1,6 +1,6 @@
 {
     "name": "react-native-styled-elements",
-    "version": "1.0.6-rc.28",
+    "version": "1.0.6-rc.29",
     "description": "The UI Toolkit for React Native(iOS/Android)",
     "main": "index.js",
     "files": [
@@ -28,6 +28,5 @@
     "bugs": {
         "url": "https://github.com/vinpro24/react-native-styled-elements/issues"
     },
-    "homepage": "https://github.com/vinpro24/react-native-styled-elements#readme",
-    "dependencies": {}
+    "homepage": "https://github.com/vinpro24/react-native-styled-elements#readme"
 }

@@ -11,12 +11,18 @@ import CodeInput from './components/CodeInput';
 const PhoneAuth = props => {
     const [state, setState] = React.useState({
         visible: false,
+        country: {},
         phone: '',
         code: '',
         error: null,
         loading: false,
         verifying: false,
     });
+    const text = {
+        ...defaultText,
+        ...props.text,
+    }
+
     const handleChange = name => value => {
         setState(prevState => ({ ...prevState, [name]: value, error: null }));
     };
@@ -30,10 +36,10 @@ const PhoneAuth = props => {
 
     const send = () => {
         setState(prevState => ({ ...prevState, loading: true }));
-        props.onSend(state.phone).then(res => {
+        props.onSend(`${state.country.dial_code}${state.phone}`).then(res => {
             setState(prevState => ({ ...prevState, loading: false, verifying: true }));
         }).catch(e => {
-            setState(prevState => ({ ...prevState, loading: false, error: 'We were unable to complete your request. Please try again.' }));
+            setState(prevState => ({ ...prevState, loading: false, error: text[e] || text.error }));
         });
     };
 
@@ -42,13 +48,18 @@ const PhoneAuth = props => {
         props.onVerify(state.code).then(res => {
             setState(prevState => ({ ...prevState, visible: false, loading: false, verifying: true, error: '' }));
         }).catch(e => {
-            setState(prevState => ({ ...prevState, loading: false, error: 'The SMS passcode you\'ve entered is incorrect.' }));
+            setState(prevState => ({ ...prevState, loading: false, error: text.code_incorrect }));
         });
     };
+
+    const onPhoneInput = ({ country, phone }) => {
+        setState(prevState => ({ ...prevState, country, phone }));
+    }
 
     const reset = () => {
         setState(prevState => ({ ...prevState, loading: false, verifying: false, error: '' }));
     };
+
 
     return (
         <>
@@ -65,9 +76,9 @@ const PhoneAuth = props => {
                     <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: null })} style={styles.container}>
                         <ScrollView style={styles.body}>
                             {state.verifying ?
-                                <CodeInput phone={state.phone} verifying={state.verifying} onChange={handleChange('code')} />
+                                <CodeInput text={text} phone={state.phone} country={state.country} verifying={state.verifying} onChange={handleChange('code')} />
                                 :
-                                <PhoneInput country_code={props.country_code} onChange={handleChange('phone')} />
+                                <PhoneInput text={text} phone={state.phone} country_code={props.country_code} onPhoneInput={onPhoneInput} />
                             }
                             {state.error ? <Text style={styles.error}>{state.error}</Text> : null}
                         </ScrollView>
@@ -76,8 +87,10 @@ const PhoneAuth = props => {
                             onVerify={onVerify}
                             onReset={reset}
                             phone={state.phone}
+                            code={state.code}
                             loading={state.loading}
                             verifying={state.verifying}
+                            text={text}
                         />
                     </KeyboardAvoidingView>
                 </SafeAreaView>
@@ -103,6 +116,16 @@ const styles = StyleSheet.create({
     },
 });
 
+const defaultText = {
+    input_phone: 'Enter your phone number',
+    input_phone_desc: 'By continuing you may receive an SMS for verification. Message and data rates may apply.',
+    verify_phone: 'Enter the 6-digit code sent to you at',
+    verify_phone_desc: 'I didn\'t receive acode.',
+    error: 'We were unable to complete your request. Please try again.',
+    timeout: 'Verification timeout!',
+    code_incorrect: 'The SMS passcode you\'ve entered is incorrect.'
+}
+
 PhoneAuth.propTypes = {
     country_code: PropTypes.string,
     button: PropTypes.oneOfType([PropTypes.element, PropTypes.object, PropTypes.func]),
@@ -113,6 +136,7 @@ PhoneAuth.defaultProps = {
     country_code: 'VN',
     onSend: () => new Promise((resolve, reject) => reject()),
     onVerify: () => new Promise((resolve, reject) => resolve()),
+    text: {}
 };
 
 export default React.memo(PhoneAuth);
