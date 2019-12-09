@@ -13,6 +13,20 @@ const PhoneInput = ({ onPhoneInput, phone, country_code, text }) => {
 
     React.useEffect(() => {
         setTimeout(() => textInputRef.current.focus(), 300)
+        fetch('http://ip-api.com/json/', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }).then(res => res.json()).then(res => {
+            if (res.status === 'success' && res.countryCode) {
+                const country = countries.find(i => i.code === res.countryCode)
+                if (country) {
+                    setState({ ...state, country });
+                }
+            }
+        })
     }, []);
 
     React.useEffect(() => {

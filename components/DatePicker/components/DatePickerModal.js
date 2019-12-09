@@ -68,10 +68,12 @@ const styles = StyleSheet.create({
     },
     cancelBtn: {
         fontSize: 14,
-        color: 'grey'
+        color: 'grey',
+        fontWeight: 'bold'
     },
     confirmBtn: {
         fontSize: 14,
-        color: '#009688'
+        color: '#009688',
+        fontWeight: 'bold'
     }
 })

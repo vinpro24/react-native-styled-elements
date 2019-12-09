@@ -120,7 +120,7 @@ const defaultText = {
     input_phone: 'Enter your phone number',
     input_phone_desc: 'By continuing you may receive an SMS for verification. Message and data rates may apply.',
     verify_phone: 'Enter the 6-digit code sent to you at',
-    verify_phone_desc: 'I didn\'t receive acode.',
+    verify_phone_desc: 'I didn\'t receive a code.',
     error: 'We were unable to complete your request. Please try again.',
     timeout: 'Verification timeout!',
     code_incorrect: 'The SMS passcode you\'ve entered is incorrect.'

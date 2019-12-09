@@ -67,11 +67,11 @@ const ActionSheet = React.forwardRef((props, ref) => {
 
 ActionSheet.propTypes = {
     style: ViewPropTypes.style,
-    button: PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.object]),
+    button: PropTypes.oneOf([PropTypes.string, PropTypes.element, PropTypes.object]),
     options: PropTypes.array,
     onSelected: PropTypes.func,
     title: PropTypes.string,
-    type: PropTypes.oneOf('list', 'none'),
+    type: PropTypes.oneOf(['list', 'none']),
 }
 
 ActionSheet.defaultProps = {

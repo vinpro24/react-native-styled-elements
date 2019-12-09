@@ -2,93 +2,101 @@ import React from 'react'
 import { FlatList, RefreshControl, Text, ViewPropTypes, ActivityIndicator } from 'react-native'
 import PropTypes from 'prop-types'
 
-function ListView(props) {
-    const [state, setState] = React.useState({
-        data: props.data,
-        total: 0,
-        refreshing: false,
-        loading: false,
-        page: props.page || 1
-    })
-
-    React.useEffect(() => {
-        _onRefresh()
-    }, [])
-
-    const _onRefresh = () => {
-        if (state.loading || state.refreshing) return
-        setState({ ...state, refreshing: true })
-        props.fetchData({ data: state.data, page: props.page }).then(res => {
-            setState({
-                ...state,
-                data: res.data,
-                total: res.total,
-                loading: false,
-                refreshing: false
-            });
-        }).catch(error => {
-            setState({
-                ...state,
-                loading: false,
-                refreshing: false
-            });
-        });
+class ListView extends React.PureComponent {
+    constructor(props) {
+        super(props)
+        this.state = {
+            refreshing: false,
+            loading: false,
+            data: typeof props.data === 'function' ? [] : props.data,
+            total: 0,
+            perPage: props.perPage,
+            page: props.page
+        }
     }
 
-    const _onLoadmore = () => {
-        if (state.loading || state.refreshing || state.data.length >= state.total) return
-        setState({ ...state, loading: true })
-        props.fetchData({ data: state.data, page: state.page }).then(res => {
-            setState({
-                ...state,
-                data: res.data,
-                total: res.total,
-                page: res.page,
-                loading: false,
-                refreshing: false
-            });
-        }).catch(error => {
-            setState({
-                ...state,
-                loading: false,
-                refreshing: false
-            });
-        });
+    componentDidMount() {
+        this.onRefresh()
     }
 
-    return (
-        <FlatList
-            data={state.data}
-            renderItem={props.renderItem}
-            refreshControl={
-                <RefreshControl
-                    refreshing={state.refreshing}
-                    onRefresh={_onRefresh}
-                />
+    onRefresh = () => {
+        if (typeof this.props.data === 'function') {
+            this.setState({ refreshing: true, loading: false })
+            const { perPage } = this.state
+            this.props.data({ data: [], page: 1, perPage }).then(res => {
+                this.setState({ ...res, refreshing: false, loading: false })
+            }).catch(() => {
+                this.setState({ ...res, refreshing: false, loading: false })
+            })
+        } else if (typeof this.props.onRefresh === 'function') {
+            this.props.onRefresh()
+        }
+    }
+
+    onLoadmore = () => {
+        if (typeof this.props.data === 'function') {
+            if (this.state.refreshing || this.state.loading || this.state.data.length >= this.state.total) {
+                return
             }
-            keyExtractor={props.keyExtractor}
-            onEndReachedThreshold={props.onEndReachedThreshold}
-            onEndReached={_onLoadmore}
-            numColumns={props.numColumns}
-            ListEmptyComponent={state.refreshing ? null : props.ListEmptyComponent}
-            ListFooterComponent={state.loading ? props.ListFooterComponent : null}
-            ListHeaderComponent={props.ListHeaderComponent}
-            disableVirtualization={props.disableVirtualization}
-            removeClippedSubviews={props.removeClippedSubviews}
-            showsHorizontalScrollIndicator={props.showsHorizontalScrollIndicator}
-            showsVerticalScrollIndicator={props.showsVerticalScrollIndicator}
-            initialNumToRender={props.initialNumToRender}
-            maxToRenderPerBatch={props.maxToRenderPerBatch}
-            windowSize={props.maxToRenderPerBatch}
-            style={props.style}
-            contentContainerStyle={props.contentContainerStyle}
-        />
-    )
+            this.setState({ refreshing: false, loading: true })
+            const { data, page, perPage } = this.state
+            this.props.data({ data, page, perPage }).then(res => {
+                this.setState({ ...res, refreshing: false, loading: false })
+            })
+        } else if (typeof this.props.onLoadmore === 'function') {
+            this.props.onLoadmore()
+        }
+    }
+
+    onQueryChange = (rest) => {
+        const params = {
+            total: 0,
+            page: rest && rest.page ? rest.page : this.props.page,
+            perPage: rest && rest.perPage ? rest.perPage : this.props.perPage,
+        }
+        this.setState(params, () => {
+            this.onRefresh()
+        })
+    }
+
+    reload = () => {
+        this.setState({ data: [], total: 0, page: this.props.page }, () => {
+            this.onRefresh()
+        })
+    }
+
+    render() {
+        const { refreshing, loading, data } = this.state
+        return (
+            <FlatList
+                data={data}
+                keyExtractor={this.props.keyExtractor}
+                renderItem={this.props.renderItem}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+                onEndReachedThreshold={this.props.onEndReachedThreshold}
+                onEndReached={this.onLoadmore}
+                numColumns={this.props.numColumns}
+                ListEmptyComponent={refreshing ? null : this.props.ListEmptyComponent}
+                ListFooterComponent={loading ? this.props.ListFooterComponent : null}
+                ListHeaderComponent={this.props.ListHeaderComponent}
+                disableVirtualization={this.props.disableVirtualization}
+                removeClippedSubviews={this.props.removeClippedSubviews}
+                showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator}
+                showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
+                initialNumToRender={this.props.initialNumToRender}
+                maxToRenderPerBatch={this.props.maxToRenderPerBatch}
+                windowSize={this.props.maxToRenderPerBatch}
+                style={this.props.style}
+                contentContainerStyle={this.props.contentContainerStyle}
+            />
+        )
+    }
 }
 
 ListView.defaultProps = {
     data: [],
     page: 1,
+    perPage: 10,
     keyExtractor: (item, index) => item.id || item._id || index.toString(),
     onEndReachedThreshold: 0.5,
     numColumns: 1,
@@ -121,6 +129,8 @@ ListView.propTypes = {
     maxToRenderPerBatch: PropTypes.number,
     windowSize: PropTypes.number,
     fetchData: PropTypes.func,
+    onRefresh: PropTypes.func,
+    onLoadmore: PropTypes.func,
 }
 
 export default ListView
