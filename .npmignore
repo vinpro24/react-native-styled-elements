@@ -1,0 +1,14 @@
+# .npmignore that is used in the testing
+
+# Ignore everything
+**/*.*
+.git/
+#
+# Except these
+!**/json.d.ts
+!**/package.json
+!LICENSE
+!README.md
+!.npmrc
+!*.js
+!*.d.ts
