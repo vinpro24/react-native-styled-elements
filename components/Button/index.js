@@ -57,7 +57,7 @@ const styles = {
         fontSize: 14,
         color: type === 'solid' ? 'white' : theme.colors.primary,
         fontWeight: '400',
-        lineHeight: 14,
+        lineHeight: 18,
         letterSpacing: -0.078
     }),
     icon: (type, theme) => ({

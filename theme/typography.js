@@ -42,7 +42,7 @@ const typography = (config) => ({
         fontFamily: config.fontFamily,
         fontSize: 16,
         fontWeight: '400',
-        lineHeight: 19,
+        lineHeight: 22,
         letterSpacing: -0.32
     },
     subtitle: {
@@ -52,7 +52,7 @@ const typography = (config) => ({
         fontSize: 15,
         fontWeight: 'normal',
         letterSpacing: -0.24,
-        lineHeight: 18
+        lineHeight: 19
     },
     text: {
         fontFamily: config.fontFamily,

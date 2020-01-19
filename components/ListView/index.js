@@ -26,7 +26,7 @@ class ListView extends React.PureComponent {
             this.props.data({ data: [], page: 1, perPage }).then(res => {
                 this.setState({ ...res, refreshing: false, loading: false })
             }).catch(() => {
-                this.setState({ ...res, refreshing: false, loading: false })
+                this.setState({ refreshing: false, loading: false })
             })
         } else if (typeof this.props.onRefresh === 'function') {
             this.props.onRefresh()
@@ -42,6 +42,8 @@ class ListView extends React.PureComponent {
             const { data, page, perPage } = this.state
             this.props.data({ data, page, perPage }).then(res => {
                 this.setState({ ...res, refreshing: false, loading: false })
+            }).catch(() => {
+                this.setState({ refreshing: false, loading: false })
             })
         } else if (typeof this.props.onLoadmore === 'function') {
             this.props.onLoadmore()
@@ -97,7 +99,7 @@ ListView.defaultProps = {
     data: [],
     page: 1,
     perPage: 10,
-    keyExtractor: (item, index) => item.id || item._id || index.toString(),
+    keyExtractor: (item, index) => `${item.id || item._id || index.toString()}`,
     onEndReachedThreshold: 0.5,
     numColumns: 1,
     ListEmptyComponent: <Text style={{ margin: 16, color: '#484848', fontSize: 14 }}>No data to display</Text>,
@@ -110,13 +112,12 @@ ListView.defaultProps = {
     initialNumToRender: 20,
     maxToRenderPerBatch: 20,
     windowSize: 101,
-    fetchData: () => Promise.resolve({ data: [] }),
 }
 
 ListView.propTypes = {
     style: ViewPropTypes.style,
-    data: PropTypes.array,
-    renderItem: PropTypes.oneOf([PropTypes.func, PropTypes.element, PropTypes.object]),
+    data: PropTypes.oneOfType([PropTypes.func, PropTypes.array]),
+    renderItem: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.object]),
     page: PropTypes.number,
     numColumns: PropTypes.number,
     keyExtractor: PropTypes.func,
@@ -128,7 +129,6 @@ ListView.propTypes = {
     initialNumToRender: PropTypes.number,
     maxToRenderPerBatch: PropTypes.number,
     windowSize: PropTypes.number,
-    fetchData: PropTypes.func,
     onRefresh: PropTypes.func,
     onLoadmore: PropTypes.func,
 }

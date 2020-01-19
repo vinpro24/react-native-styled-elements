@@ -6,7 +6,7 @@ const Footer = ({ onSend, onVerify, onReset, phone, code, loading, verifying, te
     if (verifying) {
         return (
             <View style={styles.footer}>
-                <Text style={styles.footerText} onPress={onReset}>I didn't receive acode.</Text>
+                <Text style={styles.footerText} onPress={onReset}>{text.verify_phone_desc}</Text>
                 <TouchableOpacity onPress={onVerify} style={[styles.btn, { backgroundColor: code.length < 4 ? '#BBC0C4' : '#222' }]}>
                     {loading ? <ActivityIndicator color="#fff" size="small" /> : <Image source={require('../assets/ic_arrow_right.png')} style={{ width: 30, height: 30, tintColor: '#fff' }} />}
                 </TouchableOpacity>

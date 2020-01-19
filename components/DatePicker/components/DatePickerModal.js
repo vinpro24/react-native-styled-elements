@@ -35,9 +35,9 @@ export default class DatePickerModal extends React.PureComponent {
                 onRequestClose={this.dismiss}
             >
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0)' }} onPress={this.dismiss}>
-                    <TouchableOpacity style={{ flex: 1 }} />
+                    <TouchableOpacity style={{ flex: 1 }} onPress={this.dismiss} />
                     <View style={styles.container}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
+                        <View style={styles.header}>
                             <TouchableOpacity onPress={this.dismiss}>
                                 <Text style={styles.cancelBtn}>Cancel</Text>
                             </TouchableOpacity>
@@ -59,7 +59,7 @@ export default class DatePickerModal extends React.PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: 'grey',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         margin: 0,
@@ -75,5 +75,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#009688',
         fontWeight: 'bold'
+    },
+    header: {
+        flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 15, backgroundColor: '#fff'
     }
 })

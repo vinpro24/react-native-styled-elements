@@ -65,7 +65,7 @@ const SearchModal = props => {
                 setState({ ...state, loading: false })
                 props.onError(e)
             },
-            { enableHighAccuracy: false, timeout: 10000, maximumAge: 1000 })
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 })
     }
 
     const nearBy = () => {
