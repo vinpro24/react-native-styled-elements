@@ -43,4 +43,6 @@ Icon.defaultProps = {
     color: 'black',
 }
 
-export default Icon
+export default React.memo(Icon, (prevProps, nextProps) => {
+    return prevProps.type === nextProps.type && prevProps.name === nextProps.name && prevProps.size === nextProps.size && prevProps.color === nextProps.color
+})

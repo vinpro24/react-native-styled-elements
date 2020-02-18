@@ -56,7 +56,8 @@ Rating.defaultProps = {
     size: 16,
     value: 0,
     color: '#FFAB40',
-    onRating: () => { }
 }
 
-export default Rating
+export default React.memo(Rating, (prevProps, nextProps) => {
+    return prevProps.max === nextProps.max || prevProps.value === nextProps.value || prevProps.size === nextProps.size || prevProps.color === nextProps.color
+})

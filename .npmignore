@@ -1,7 +1,7 @@
 # .npmignore that is used in the testing
 
 # Ignore everything
-**/*.*
+# **/*.*
 .git/
 #
 # Except these

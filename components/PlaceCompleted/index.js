@@ -45,4 +45,6 @@ PlaceCompleted.defaultProps = {
     visible: false
 }
 
-export default PlaceCompleted
+export default React.memo(PlaceCompleted, (prevProps, nextProps) => {
+    return prevProps.visible === nextProps.visible
+})

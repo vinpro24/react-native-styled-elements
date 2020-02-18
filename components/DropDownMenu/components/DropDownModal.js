@@ -36,13 +36,12 @@ const DropDownModal = props => {
                         showsVerticalScrollIndicator={false}
                         removeClippedSubviews={true}
                         contentContainerStyle={{ paddingVertical: 100 }}
-                        pagingEnabled={true}
                     />
                     <Image source={require('./top_gradient.png')} style={{ position: 'absolute', top: -1, left: 0, right: 0, height: 50, width, resizeMode: 'stretch', tintColor: 'rgba(242, 242, 242, 0.97)' }} />
                     <Image source={require('./bottom_gradient.png')} style={{ position: 'absolute', bottom: -1, left: 0, right: 0, height: 50, width, resizeMode: 'stretch', tintColor: 'rgba(242, 242, 242, 0.97)' }} />
                 </View>
                 <TouchableOpacity onPress={onClose}>
-                    <Text style={{ fontSize: 24, padding: 25 }}>{'×'}</Text>
+                    <Text style={{ fontSize: 30, padding: 25 }}>{'×'}</Text>
                 </TouchableOpacity>
             </Animated.View>
         </Modal>
@@ -58,4 +57,4 @@ const styles = {
     }
 }
 
-export default DropDownModal
+export default React.memo(DropDownModal)

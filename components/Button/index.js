@@ -28,9 +28,9 @@ const Button = props => {
                 disabled && styles.disabled,
             ])}
         >
-            {loading && <ActivityIndicator size='small' color={type === 'solid' ? 'white' : '#666'} />}
+            {loading && <ActivityIndicator size='small' color={type === 'solid' ? 'white' : '#666'} style={{ marginRight: 8 }} />}
             {!loading && iconComponent}
-            {!loading && <Text style={StyleSheet.flatten([styles.title(type, theme), titleStyle])}>{title}</Text>}
+            <Text style={StyleSheet.flatten([styles.title(type, theme), titleStyle])}>{title}</Text>
         </TouchableOpacity>
     )
 }

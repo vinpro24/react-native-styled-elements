@@ -47,4 +47,4 @@ Badge.defaultProps = {
     hidden: false
 }
 
-export default Badge
+export default React.memo(Badge)

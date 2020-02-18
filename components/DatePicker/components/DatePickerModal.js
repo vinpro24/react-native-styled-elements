@@ -59,7 +59,7 @@ export default class DatePickerModal extends React.PureComponent {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'grey',
+        backgroundColor: '#9e9e9e',
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         margin: 0,

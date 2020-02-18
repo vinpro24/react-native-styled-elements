@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
 Image.propTypes = {
     ImageComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    placeholder: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    placeholderSource: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({ uri: PropTypes.string })]),
     placeholderStyle: RNImage.propTypes.style,
     containerStyle: ViewPropTypes.style,
     source: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({ uri: PropTypes.string })]),

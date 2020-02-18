@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, ViewPropTypes } from 'react-native'
+import PropTypes from 'prop-types'
 
 import FlipCard from './components/FlipCard'
 import Form from './components/Form'
@@ -53,7 +54,7 @@ class CreditCardInput extends React.PureComponent {
         const { value, status } = this.state
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
+                <View style={[styles.container, this.props.style]}>
                     <FlipCard
                         ref={c => (this.flipCard = c)}
                         value={value}
@@ -80,5 +81,11 @@ const styles = StyleSheet.create({
         padding: 10
     }
 })
+
+CreditCardInput.propTypes = {
+    style: ViewPropTypes.style,
+    onAddCard: PropTypes.func,
+    textStyle: Text.propTypes.style,
+}
 
 export default CreditCardInput
