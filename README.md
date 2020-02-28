@@ -9,6 +9,40 @@ npm install react-native-styled-elements
 # DefaultTextProps, DefaultTextStyle
 
 ```js
+import { Theme } from 'react-native-styled-elements';
+
+Theme.set({ 
+    colors: {
+        primary: '#6200ee',
+        secondary: '#03dac5',
+        accent: '#03dac4',
+        background: '#f6f6f6',
+        surface: '#ffffff',
+        error: '#B00020',
+        text: '#000000',
+        onBackground: '#000000',
+        onSurface: '#000000',
+        disabled: 'rgba(0,0,0,0.26)',
+        disabledBackgroundColor: '#D1D5D8',
+        placeholder: 'rgba(0,0,0,0.54)',
+        backdrop: 'rgba(0,0,0,0.5)',
+        notification: '#F50057',
+    }
+})
+Theme.setFontFamily('FontName')
+
+<Text style={Theme.heading}>heading</Text>
+<Text style={Theme.title}>title</Text>
+<Text style={Theme.subtitle}>subtitle</Text>
+<Text style={Theme.text}>text</Text>
+<Text style={Theme.footnote}>footnote</Text>
+<Text style={Theme.caption}>caption</Text>
+
+```
+
+# DefaultTextProps, DefaultTextStyle
+
+```js
 import { setDefaultTextProps, setDefaultTextStyle } from 'react-native-styled-elements';
 
 setDefaultTextProps(textProps)
