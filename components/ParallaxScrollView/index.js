@@ -60,4 +60,8 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ParallaxScrollView
+function areEqual(prevProps, nextProps) {
+    return prevProps.parallaxHeaderHeight === nextProps.parallaxHeaderHeight
+}
+
+export default React.memo(ParallaxScrollView, areEqual)

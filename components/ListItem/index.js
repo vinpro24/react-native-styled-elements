@@ -53,7 +53,7 @@ const ListItem = props => {
                 {rightIconComponent && rightIconComponent}
                 {rightAvatarComponent && rightAvatarComponent}
             </View>
-            {chevron && <Icon type='Feather' name='chevron-right' size={20} color={theme.colors.grey4} style={{ marginLeft: theme.spacing, alignSelf: 'center' }} />}
+            {chevron && <Icon type='Feather' name='chevron-right' size={20} color={theme.colors.grey4} style={{ marginLeft: theme.spacing(1), alignSelf: 'center' }} />}
             {children}
         </ContainerView>
     )
@@ -63,20 +63,20 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: theme.spacing * 2,
+        padding: theme.spacing(1) * 2,
     },
     subtitleStyle: {
         marginTop: 2
     },
     leftContainer: {
-        paddingRight: theme.spacing
+        paddingRight: theme.spacing(1)
     },
     rightContainer: {
-        paddingLeft: theme.spacing
+        paddingLeft: theme.spacing(1)
     },
     bodyContainer: {
         flex: 1,
-        paddingHorizontal: theme.spacing
+        paddingHorizontal: theme.spacing(1)
     },
     leftAvatar: {
         width: 40,
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
 })
 
 ListItem.propTypes = {
-    leftComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
-    rightComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
-    leftAvatar: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    leftIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.object]),
-    rightAvatar: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.object, PropTypes.shape({ source: PropTypes.shape({ uri: PropTypes.string }) })]),
-    rightIcon: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.object]),
+    leftComponent: PropTypes.oneOf([PropTypes.func, PropTypes.element]),
+    rightComponent: PropTypes.oneOf([PropTypes.func, PropTypes.element]),
+    leftAvatar: PropTypes.oneOf([PropTypes.func, PropTypes.object]),
+    leftIcon: PropTypes.oneOf([PropTypes.func, PropTypes.element, PropTypes.object]),
+    rightAvatar: PropTypes.oneOf([PropTypes.func, PropTypes.element, PropTypes.object, PropTypes.shape({ source: PropTypes.shape({ uri: PropTypes.string }) })]),
+    rightIcon: PropTypes.oneOf([PropTypes.func, PropTypes.element, PropTypes.object]),
     style: ViewPropTypes.style,
     title: PropTypes.string,
     titleStyle: Text.propTypes.style,
@@ -117,9 +117,8 @@ ListItem.propTypes = {
     chevron: PropTypes.bool,
 }
 
-ListItem.defaultProps = {
-    size: 16,
-    color: 'black',
+const areEqual = (prevProps, nextProps) => {
+    return prevProps.size === nextProps.size && prevProps.title === nextProps.title && prevProps.subtitle === nextProps.subtitle
 }
 
-export default ListItem
+export default React.memo(ListItem, areEqual)

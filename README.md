@@ -31,22 +31,6 @@ i18n.getLanguage() // or i18n.locale
 console.log(i18n.t('welcome'))
 ```
 
-# UpDownPuller
-
-```js
-import { UpDownPuller } from 'react-native-styled-elements';
-
-<UpDownPuller
-    miniHeight={210}
-    top={80}
-    containerStyle={}
-    onPullDown={}
-    onPullUp={}
->
-    ...rest of your component
-</UpDownPuller>
-```
-
 ## DropdownMenu
 
 ```js
@@ -95,13 +79,41 @@ import { Button } from 'react-native-styled-elements';
 ```js
 import { ListView } from 'react-native-styled-elements';
 
+const fetchData = ({ data, page, perPage }) => {
+    return callAPI({ page, perPage }).then(res => {
+        return { data: [...data, res.data], page: page + 1, total: res.total }
+    })
+}
+
 <ListView
-    data={this.state.data}
+    data={fetchData}
     renderItem={({ item, index }) => {}}
     keyExtractor={i => i.id}
     page={1}
     perPage={10}
-    fetchData={({ page }, onSuccess, onError) => {}}
+/>
+```
+
+## ListItem
+```js
+import { ListItem } from 'react-native-styled-elements';
+
+<ListItem
+    title="Title"
+    subtitle="SubTitle"
+/>
+```
+
+
+## Rating
+```js
+import { Rating } from 'react-native-styled-elements';
+
+<Rating
+    max={5}
+    size={16}
+    value={4.5}
+    color={'#FFAB40'}
 />
 ```
 
@@ -121,4 +133,33 @@ import { SwipeableItem } from 'react-native-styled-elements';
 import { KeyboardSpacer } from 'react-native-styled-elements';
 
 <KeyboardSpacer />
+```
+# UpDownPuller
+
+```js
+import { UpDownPuller } from 'react-native-styled-elements';
+
+<UpDownPuller
+    miniHeight={210}
+    top={80}
+    containerStyle={}
+    onPullDown={}
+    onPullUp={}
+>
+    ...rest of your component
+</UpDownPuller>
+```
+
+# ParallaxScrollView
+
+```js
+import { ParallaxScrollView } from 'react-native-styled-elements';
+
+<ParallaxScrollView
+    style={{}}
+    renderForeground={<View />}
+    parallaxHeaderHeight={150}
+>
+    ...rest of your component
+</ParallaxScrollView>
 ```

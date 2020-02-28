@@ -1,7 +1,7 @@
 {
     "name": "react-native-styled-elements",
-    "version": "1.0.6-rc.37",
-    "description": "The UI Toolkit for React Native(iOS/Android)",
+    "version": "1.0.6-rc.38",
+    "description": "The UI Toolkit for React Native (iOS/Android)",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
