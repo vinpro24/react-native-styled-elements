@@ -1,4 +1,5 @@
-import { Platform } from 'react-native'
+import React from 'react'
+import { Platform, Text, TextInput } from 'react-native'
 
 const config = {
     fontFamily: Platform.select({ ios: 'Verdana', android: 'Roboto' }),
@@ -27,7 +28,7 @@ const Theme = {
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: 20,
-        fontFamily: config.fontFamily,
+        // fontFamily: config.fontFamily,
         letterSpacing: 0.361328,
         lineHeight: 30,
     },
@@ -37,7 +38,7 @@ const Theme = {
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: 18,
-        fontFamily: config.fontFamily,
+        // fontFamily: config.fontFamily,
         letterSpacing: 0.361328,
         lineHeight: 26,
     },
@@ -47,7 +48,7 @@ const Theme = {
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: 16,
-        fontFamily: config.fontFamily,
+        // fontFamily: config.fontFamily,
         letterSpacing: 0.361328,
         lineHeight: 22,
     },
@@ -57,7 +58,7 @@ const Theme = {
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: 14,
-        fontFamily: config.fontFamily,
+        // fontFamily: config.fontFamily,
         letterSpacing: 0.361328,
         lineHeight: 19,
     },
@@ -67,7 +68,7 @@ const Theme = {
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: 13,
-        fontFamily: config.fontFamily,
+        // fontFamily: config.fontFamily,
         letterSpacing: 0.361328,
         lineHeight: 18,
     },
@@ -77,7 +78,7 @@ const Theme = {
         fontStyle: 'normal',
         fontWeight: 'normal',
         fontSize: 11,
-        fontFamily: config.fontFamily,
+        // fontFamily: config.fontFamily,
         letterSpacing: 0,
         lineHeight: 15,
     },
@@ -118,6 +119,29 @@ const Theme = {
                 this[key] = { ...this[key], ...params[key] }
             }
         })
+    },
+    setDefaultTextStyle: function (style) {
+        const oldTextRender = Text.render
+        Text.render = function (...args) {
+            const origin = oldTextRender.call(this, ...args)
+            return React.cloneElement(origin, {
+                style: [style, origin.props.style]
+            })
+        }
+        const oldTextInputRender = TextInput.render
+        TextInput.render = function (...args) {
+            const origin = oldTextInputRender.call(this, ...args)
+            return React.cloneElement(origin, {
+                style: [style, origin.props.style]
+            })
+        }
+        if (style && style.fontFamily) {
+            Object.keys(this).forEach(key => {
+                if (this[key].fontFamily) {
+                    this[key].fontFamily = style.fontFamily
+                }
+            })
+        }
     },
 }
 

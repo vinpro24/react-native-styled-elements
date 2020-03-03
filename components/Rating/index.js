@@ -23,21 +23,33 @@ const Rating = props => {
                 if (state.value - index >= 1) {
                     if (props.renderActive) {
                         const Component = props.renderActive
-                        return <Component />
+                        return (
+                            <TouchableOpacity onPress={props.onPress} style={{ marginRight: props.spacing }}>
+                                {Component}
+                            </TouchableOpacity>
+                        )
                     } else {
                         source = starBold
                     }
                 } else if (state.value - index < 1 && state.value - index > 0) {
                     if (props.renderHalf) {
                         const Component = props.renderHalf
-                        return <Component />
+                        return (
+                            <TouchableOpacity onPress={props.onPress} style={{ marginRight: props.spacing }}>
+                                {Component}
+                            </TouchableOpacity>
+                        )
                     } else {
                         source = starHalf
                     }
                 } else {
                     if (props.renderInactive) {
                         const Component = props.renderInactive
-                        return <Component />
+                        return (
+                            <TouchableOpacity onPress={props.onPress} style={{ marginRight: props.spacing }}>
+                                {Component}
+                            </TouchableOpacity>
+                        )
                     } else {
                         source = starTrans
                     }
@@ -70,12 +82,13 @@ Rating.propTypes = {
     value: PropTypes.number,
     max: PropTypes.number,
     total: PropTypes.number,
+    spacing: PropTypes.number,
     color: PropTypes.string,
     size: PropTypes.number,
     disabled: PropTypes.bool,
     onRating: PropTypes.func,
     renderActive: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
-    renderInactive: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+    renderInactive: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     renderHalf: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
 }
 
@@ -84,8 +97,9 @@ Rating.defaultProps = {
     size: 16,
     value: 0,
     color: '#FFAB40',
+    spacing: 4,
     renderActive: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
-    renderInactive: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+    renderInactive: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     renderHalf: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
 }
 
