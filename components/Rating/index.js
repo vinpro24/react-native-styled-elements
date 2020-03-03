@@ -18,16 +18,41 @@ const Rating = props => {
 
     return (
         <View style={[{ flexDirection: 'row', alignItems: 'center' }, props.style]}>
-            {[...new Array(props.max)].map((i, index) => (
-                <Star
-                    key={`${index}`}
-                    disabled={!props.onRating || props.disabled}
-                    source={(state.value - index >= 1) ? starBold : (state.value - index < 1 && state.value - index > 0) ? starHalf : starTrans}
-                    color={props.color}
-                    size={props.size}
-                    onPress={onSelect(index + 1)}
-                />
-            ))}
+            {[...new Array(props.max)].map((i, index) => {
+                let source = null
+                if (state.value - index >= 1) {
+                    if (props.renderActive) {
+                        const Component = props.renderActive
+                        return <Component />
+                    } else {
+                        source = starBold
+                    }
+                } else if (state.value - index < 1 && state.value - index > 0) {
+                    if (props.renderHalf) {
+                        const Component = props.renderHalf
+                        return <Component />
+                    } else {
+                        source = starHalf
+                    }
+                } else {
+                    if (props.renderInactive) {
+                        const Component = props.renderInactive
+                        return <Component />
+                    } else {
+                        source = starTrans
+                    }
+                }
+                return (
+                    <Star
+                        key={`${index}`}
+                        disabled={!props.onRating || props.disabled}
+                        source={source}
+                        color={props.color}
+                        size={props.size}
+                        onPress={onSelect(index + 1)}
+                    />
+                )
+            })}
 
             {props.total ? <Text style={{ fontSize: props.size, marginLeft: 5 }}>{`(${props.total})`}</Text> : null}
         </View>
@@ -48,7 +73,10 @@ Rating.propTypes = {
     color: PropTypes.string,
     size: PropTypes.number,
     disabled: PropTypes.bool,
-    onRating: PropTypes.func
+    onRating: PropTypes.func,
+    renderActive: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+    renderInactive: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+    renderHalf: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
 }
 
 Rating.defaultProps = {
@@ -56,6 +84,9 @@ Rating.defaultProps = {
     size: 16,
     value: 0,
     color: '#FFAB40',
+    renderActive: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
+    renderInactive: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+    renderHalf: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
 }
 
 export default React.memo(Rating, (prevProps, nextProps) => {

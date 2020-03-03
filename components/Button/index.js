@@ -1,45 +1,64 @@
 import React from 'react'
-import { ActivityIndicator, Text, TouchableOpacity, Platform, ViewPropTypes, StyleSheet } from 'react-native'
+import { ActivityIndicator, Text, Platform, ViewPropTypes, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
-import theme from '../../theme'
+import Theme from '../../theme'
 import iconTypes from '../Icon/iconTypes'
+import TouchableView from './TouchableView'
 
-const Button = props => {
-    const { title, titleStyle, icon, style, disabled, onPress, type, loading, raised, round, color } = props
+type Props = {
+    /**
+     * Mode of the button. You can change the mode to adjust the styling to give it desired emphasis.
+     * - `text` - flat button without background or outline (low emphasis)
+     * - `outline` - button with an outline (medium emphasis)
+     * - `contain` - button with a background color and elevation shadow (high emphasis)
+     */
+    type?: 'text' | 'outline' | 'contain';
+    /**
+     * Whether to show a loading indicator.
+     */
+    loading?: boolean;
+    /**
+     * Function to execute on press.
+     */
+    onPress?: () => void;
+}
+
+const Button = (props: Props) => {
+    const { title, titleStyle, icon, style, disabled, onPress, type, loading, raised, round, color, disableStyle, disableTitleStyle } = props
     let iconComponent
     if (typeof icon === 'object') {
         const Icon = iconTypes(icon.type)
-        iconComponent = <Icon type={icon.type} name={icon.name} size={icon.size} color={icon.color} style={StyleSheet.flatten([{ marginRight: 16 }, icon.style])} />
+        iconComponent = <Icon type={icon.type} name={icon.name} size={icon.size} color={icon.color || color} style={StyleSheet.flatten([{ marginRight: 12 }, icon.style])} />
     } else {
         iconComponent = icon
     }
 
     return (
-        <TouchableOpacity
+        <TouchableView
             onPress={onPress}
             disabled={loading || disabled}
             style={StyleSheet.flatten([
-                styles.button(type, theme),
+                styles.button(type, Theme),
                 raised && styles.raised(type),
                 round && styles.round,
                 { justifyContent: iconComponent ? 'flex-start' : 'center' },
-                { backgroundColor: type === 'solid' ? color : 'transparent' },
+                { backgroundColor: type === 'contain' ? color : 'transparent' },
                 style,
-                disabled && styles.disabled,
+                disabled ? disableStyle : null,
             ])}
         >
-            {loading && <ActivityIndicator size='small' color={type === 'solid' ? 'white' : '#666'} style={{ marginRight: 8 }} />}
+            {loading && <ActivityIndicator size='small' color={type === 'contain' ? 'white' : '#666'} style={{ marginRight: 8 }} />}
             {!loading && iconComponent}
-            <Text style={StyleSheet.flatten([styles.title(type, theme), titleStyle])}>{title}</Text>
-        </TouchableOpacity>
+            <Text style={StyleSheet.flatten([styles.title(type, Theme), titleStyle, disabled ? disableTitleStyle : null])}>{title}</Text>
+        </TouchableView>
     )
 }
 
 const styles = {
     button: (type, theme) => ({
-        height: 36,
+        minHeight: 40,
         paddingHorizontal: 16,
-        paddingVertical: 8,
+        paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 3,
@@ -54,22 +73,22 @@ const styles = {
     title: (type, theme) => ({
         backgroundColor: 'transparent',
         fontFamily: Platform.select({ ios: 'Verdana', android: 'System' }),
-        fontSize: 14,
-        color: type === 'solid' ? 'white' : theme.colors.primary,
+        fontSize: 16,
+        color: type === 'contain' ? 'white' : theme.colors.primary,
         fontWeight: '400',
-        lineHeight: 18,
+        lineHeight: 20,
         letterSpacing: -0.078
     }),
     icon: (type, theme) => ({
         backgroundColor: 'transparent',
         fontFamily: Platform.select({ ios: 'Verdana', android: 'System' }),
         fontSize: 14,
-        color: type === 'solid' ? 'white' : theme.colors.primary,
+        color: type === 'contain' ? 'white' : theme.colors.primary,
         fontWeight: '400',
         lineHeight: 14,
         letterSpacing: -0.078
     }),
-    raised: type => type !== 'clear' && {
+    raised: type => type !== 'text' && {
         backgroundColor: '#fff',
         ...Platform.select({
             android: {
@@ -84,7 +103,7 @@ const styles = {
         }),
     },
     round: {
-        borderRadius: 18
+        borderRadius: 20
     },
     disabled: {
         // grey from designmodo.github.io/Flat-UI/
@@ -94,7 +113,7 @@ const styles = {
 
 Button.propTypes = {
     style: ViewPropTypes.style,
-    type: PropTypes.oneOf(['solid', 'outline', 'clear']),
+    type: PropTypes.oneOf(['contain', 'outline', 'clear']),
     onPress: PropTypes.func,
     onLongPress: PropTypes.func,
     title: PropTypes.string,
@@ -103,17 +122,24 @@ Button.propTypes = {
     loading: PropTypes.bool,
     raised: PropTypes.bool,
     disabled: PropTypes.bool,
+    disableStyle: ViewPropTypes.style,
+    disableTitleStyle: Text.propTypes.style,
     round: PropTypes.bool,
     color: PropTypes.string
 }
 
 Button.defaultProps = {
-    type: 'solid',
+    type: 'contain',
     loading: false,
     raised: false,
     disabled: false,
     round: false,
-    color: theme.colors.primary
+    color: Theme.colors.primary,
+    disabledStyle: styles.disabled,
 }
 
-export default React.memo(Button)
+const areEqual = (prevProps, nextProps) => {
+    return prevProps.type === nextProps.type && prevProps.title === nextProps.title && prevProps.loading === nextProps.loading && prevProps.color === nextProps.color && prevProps.disabled === nextProps.disabled && prevProps.round === nextProps.round && prevProps.style === nextProps.style && prevProps.disableStyle === nextProps.disableStyle && prevProps.disableTitleStyle === nextProps.disableTitleStyle
+}
+
+export default React.memo(Button, areEqual)

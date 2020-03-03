@@ -3,20 +3,33 @@ import { View, Text, TextInput, ViewPropTypes, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import theme from '../../theme'
 import Icon from '../Icon'
+import { useDebounce } from '../../utils'
 
 const Input = props => {
-    const { containerStyle, label, labelStyle, inputStyle, inputContainerStyle, InputComponent, leftIcon, rightIcon, iconContainerStyle, leftIconContainerStyle, errorProps, errorMessage, errorStyle } = props
+    const { value, debounce, containerStyle, label, labelStyle, inputStyle, inputContainerStyle, InputComponent, leftIcon, rightIcon, iconContainerStyle, leftIconContainerStyle, errorProps, errorMessage, errorStyle, bottomDivider } = props
+    const [text, setText] = React.useState(value);
+    const textChanged = useDebounce(text, debounce);
+
+    React.useEffect(() => {
+        setText(props.value)
+    }, [props.value])
+
+    React.useEffect(() => {
+        if (props.onChangeText) {
+            props.onChangeText(textChanged)
+        }
+    }, [textChanged])
+
+    const onChangeText = text => {
+        setText(text)
+    }
 
     return (
         <View style={StyleSheet.flatten([styles.container, containerStyle])}>
             {label && <Text style={StyleSheet.flatten([styles.label, labelStyle])}>{label}</Text>}
 
             <View
-                style={StyleSheet.flatten([
-                    styles.inputContainer,
-                    inputContainerStyle
-                ])}
-            >
+                style={StyleSheet.flatten([styles.inputContainer, inputContainerStyle])}>
                 {
                     leftIcon && (
                         <View style={StyleSheet.flatten([styles.iconContainer, iconContainerStyle, leftIconContainerStyle])}>
@@ -26,10 +39,11 @@ const Input = props => {
                 }
 
                 <InputComponent
-                    testID="RNSE__Input__text-input"
                     underlineColorAndroid="transparent"
                     {...props}
-                    style={StyleSheet.flatten([styles.input, inputStyle])}
+                    value={text}
+                    onChangeText={onChangeText}
+                    style={StyleSheet.flatten([styles.input, inputStyle, { borderBottomWidth: bottomDivider ? StyleSheet.hairlineWidth : 0 }])}
                 />
 
                 {
@@ -41,12 +55,12 @@ const Input = props => {
                 }
             </View>
 
-            <Text
+            {errorMessage && <Text
                 {...errorProps}
                 style={StyleSheet.flatten([styles.error, errorStyle])}
             >
                 {errorMessage}
-            </Text>
+            </Text>}
 
         </View>
     )
@@ -67,7 +81,6 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         flexDirection: 'row',
-        borderBottomWidth: StyleSheet.hairlineWidth,
         alignItems: 'center',
         borderColor: theme.colors.grey3,
     },
@@ -114,10 +127,17 @@ Input.propTypes = {
     secureTextEntry: PropTypes.bool,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
+    bottomDivider: PropTypes.bool,
+    debounce: PropTypes.number
 }
 
 Input.defaultProps = {
     InputComponent: TextInput,
+    debounce: 300
 }
 
-export default Input
+function areEqual(prevProps, nextProps) {
+    return prevProps.value === nextProps.value && prevProps.label === nextProps.label && prevProps.debounce === nextProps.debounce
+}
+
+export default React.memo(Input, areEqual)
