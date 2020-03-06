@@ -3,6 +3,7 @@ import {
   TouchableOpacity,
   Platform,
   TouchableNativeFeedback,
+  View
 } from 'react-native'
 
 const TouchableView = props => {

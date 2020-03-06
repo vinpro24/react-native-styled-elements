@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, RefreshControl, Text, ViewPropTypes, ActivityIndicator } from 'react-native'
+import { FlatList, Text, ViewPropTypes, ActivityIndicator } from 'react-native'
 import PropTypes from 'prop-types'
 import PlaceHolder from './components/PlaceHolder'
 import Empty from './components/Empty'
@@ -55,9 +55,11 @@ const ListView = React.forwardRef((props, ref) => {
             data={state.data}
             keyExtractor={props.keyExtractor}
             renderItem={props.renderItem}
-            refreshControl={<RefreshControl refreshing={state.refreshing && state.data.length} onRefresh={onRefresh} />}
+            refreshing={state.refreshing}
+            onRefresh={onRefresh}
             onEndReachedThreshold={props.onEndReachedThreshold}
             onEndReached={onLoadmore}
+            ListHeaderComponent={props.ListHeaderComponent}
             ListEmptyComponent={state.refreshing ? null : props.ListEmptyComponent ? props.ListEmptyComponent : <Empty onRefresh={onRefresh} />}
             ListFooterComponent={state.refreshing && !state.data.length ? PlaceHolder : state.loading ? <ActivityIndicator style={{ margin: 16, alignSelf: 'center' }} size='large' /> : props.ListFooterComponent}
             style={props.style}
@@ -91,6 +93,7 @@ ListView.propTypes = {
     windowSize: PropTypes.number,
     onRefresh: PropTypes.func,
     onLoadmore: PropTypes.func,
+    ListHeaderComponent:PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
 }
 
 ListView.defaultProps = {

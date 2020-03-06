@@ -32,6 +32,7 @@ import SwipeableItem from './components/SwipeableItem'
 import PhoneAuth from './components/PhoneAuth'
 import CreditCardInput from './components/CreditCardInput'
 import LightBox from './components/LightBox'
+import Touchable from './components/Touchable'
 
 export {
     UpDownPuller,
@@ -64,5 +65,6 @@ export {
     hexToRgb,
     rgbToHex,
     CreditCardInput,
-    LightBox
+    LightBox,
+    Touchable
 }

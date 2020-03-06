@@ -1,9 +1,9 @@
 import React from 'react'
-import { ActivityIndicator, Text, Platform, ViewPropTypes, StyleSheet } from 'react-native'
+import { ActivityIndicator, Text, Platform, ViewPropTypes, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import Theme from '../../theme'
 import iconTypes from '../Icon/iconTypes'
-import TouchableView from './TouchableView'
+import TouchableView from '../Touchable'
 
 type Props = {
     /**
@@ -37,7 +37,9 @@ const Button = (props: Props) => {
         <TouchableView
             onPress={onPress}
             disabled={loading || disabled}
-            style={StyleSheet.flatten([
+            
+        >
+            <View style={StyleSheet.flatten([
                 styles.button(type, Theme),
                 raised && styles.raised(type),
                 round && styles.round,
@@ -45,11 +47,11 @@ const Button = (props: Props) => {
                 { backgroundColor: type === 'contain' ? color : 'transparent' },
                 style,
                 disabled ? disableStyle : null,
-            ])}
-        >
+            ])}>
             {loading && <ActivityIndicator size='small' color={type === 'contain' ? 'white' : '#666'} style={{ marginRight: 8 }} />}
             {!loading && iconComponent}
             <Text style={StyleSheet.flatten([styles.title(type, Theme), titleStyle, disabled ? disableTitleStyle : null])}>{title}</Text>
+            </View>
         </TouchableView>
     )
 }
