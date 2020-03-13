@@ -24,7 +24,7 @@ type Props = {
 }
 
 const Button = (props: Props) => {
-    const { title, titleStyle, icon, style, disabled, onPress, type, loading, raised, round, color, disableStyle, disableTitleStyle } = props
+    const { title, titleStyle, icon, style, disabled, onPress, type, loading, raised, round, color, disabledStyle, disabledTitleStyle } = props
     let iconComponent
     if (typeof icon === 'object') {
         const Icon = iconTypes(icon.type)
@@ -37,7 +37,7 @@ const Button = (props: Props) => {
         <TouchableView
             onPress={onPress}
             disabled={loading || disabled}
-            
+
         >
             <View style={StyleSheet.flatten([
                 styles.button(type, Theme),
@@ -46,11 +46,11 @@ const Button = (props: Props) => {
                 { justifyContent: iconComponent ? 'flex-start' : 'center' },
                 { backgroundColor: type === 'contain' ? color : 'transparent' },
                 style,
-                disabled ? disableStyle : null,
+                disabled ? disabledStyle : null,
             ])}>
-            {loading && <ActivityIndicator size='small' color={type === 'contain' ? 'white' : '#666'} style={{ marginRight: 8 }} />}
-            {!loading && iconComponent}
-            <Text style={StyleSheet.flatten([styles.title(type, Theme), titleStyle, disabled ? disableTitleStyle : null])}>{title}</Text>
+                {loading && <ActivityIndicator size='small' color={type === 'contain' ? 'white' : '#666'} style={{ marginRight: 8 }} />}
+                {!loading && iconComponent}
+                <Text style={StyleSheet.flatten([styles.title(type, Theme), titleStyle, disabled ? disabledTitleStyle : null])}>{title}</Text>
             </View>
         </TouchableView>
     )
@@ -111,6 +111,7 @@ const styles = {
         // grey from designmodo.github.io/Flat-UI/
         backgroundColor: '#D1D5D8',
     },
+    disabledTitleStyle: '#666'
 }
 
 Button.propTypes = {
@@ -124,8 +125,8 @@ Button.propTypes = {
     loading: PropTypes.bool,
     raised: PropTypes.bool,
     disabled: PropTypes.bool,
-    disableStyle: ViewPropTypes.style,
-    disableTitleStyle: Text.propTypes.style,
+    disabledStyle: ViewPropTypes.style,
+    disabledTitleStyle: Text.propTypes.style,
     round: PropTypes.bool,
     color: PropTypes.string
 }
@@ -138,10 +139,11 @@ Button.defaultProps = {
     round: false,
     color: Theme.colors.primary,
     disabledStyle: styles.disabled,
+    disabledTitleStyle: styles.disabledTitleStyle
 }
 
 const areEqual = (prevProps, nextProps) => {
-    return prevProps.type === nextProps.type && prevProps.title === nextProps.title && prevProps.loading === nextProps.loading && prevProps.color === nextProps.color && prevProps.disabled === nextProps.disabled && prevProps.round === nextProps.round && prevProps.style === nextProps.style && prevProps.disableStyle === nextProps.disableStyle && prevProps.disableTitleStyle === nextProps.disableTitleStyle
+    return prevProps.type === nextProps.type && prevProps.title === nextProps.title && prevProps.loading === nextProps.loading && prevProps.color === nextProps.color && prevProps.disabled === nextProps.disabled && prevProps.round === nextProps.round && prevProps.style === nextProps.style && prevProps.disabledStyle === nextProps.disabledStyle && prevProps.disabledTitleStyle === nextProps.disabledTitleStyle
 }
 
 export default React.memo(Button, areEqual)
