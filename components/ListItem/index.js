@@ -39,20 +39,25 @@ const ListItem = props => {
 
     return (
         <ContainerView onPress={onPress} onLongPress={onLongPress} style={[styles.container, style, topDivider && styles.topDivider, bottomDivider && styles.bottomDivider]}>
-            <View style={StyleSheet.flatten([styles.leftContainer])}>
-                {leftComponent && leftComponent}
-                {leftIconComponent && leftIconComponent}
-                {leftAvatarComponent && leftAvatarComponent}
-            </View>
+            {leftComponent || leftIconComponent || leftAvatarComponent ? (
+                <View style={StyleSheet.flatten([styles.leftContainer])}>
+                    {leftComponent && leftComponent}
+                    {leftIconComponent && leftIconComponent}
+                    {leftAvatarComponent && leftAvatarComponent}
+                </View>
+            ): null}
             <View style={StyleSheet.flatten([styles.bodyContainer])}>
                 <Text style={[theme.subtitle, titleStyle]} numberOfLines={1}>{title}</Text>
                 {subtitle ? <Text style={[theme.footnote, styles.subtitleStyle, subtitleStyle]} numberOfLines={1}>{subtitle}</Text> : null}
             </View>
-            <View style={StyleSheet.flatten([styles.rightContainer])}>
-                {rightComponent && rightComponent}
-                {rightIconComponent && rightIconComponent}
-                {rightAvatarComponent && rightAvatarComponent}
-            </View>
+            {rightComponent || rightIconComponent || rightAvatarComponent ? (
+                <View style={StyleSheet.flatten([styles.rightContainer])}>
+                    {rightComponent && rightComponent}
+                    {rightIconComponent && rightIconComponent}
+                    {rightAvatarComponent && rightAvatarComponent}
+                </View>
+            ): null}
+            
             {chevron && <Icon type='Feather' name='chevron-right' size={20} color={theme.colors.grey4} style={{ marginLeft: theme.spacing(1), alignSelf: 'center' }} />}
             {children}
         </ContainerView>
@@ -76,7 +81,6 @@ const styles = StyleSheet.create({
     },
     bodyContainer: {
         flex: 1,
-        paddingHorizontal: theme.spacing(1)
     },
     leftAvatar: {
         width: 40,

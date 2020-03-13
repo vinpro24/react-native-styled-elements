@@ -33,6 +33,7 @@ import PhoneAuth from './components/PhoneAuth'
 import CreditCardInput from './components/CreditCardInput'
 import LightBox from './components/LightBox'
 import Touchable from './components/Touchable'
+import SearchModal from './components/SearchModal'
 
 export {
     UpDownPuller,
@@ -66,5 +67,6 @@ export {
     rgbToHex,
     CreditCardInput,
     LightBox,
-    Touchable
+    Touchable,
+    SearchModal
 }

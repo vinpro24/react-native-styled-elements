@@ -18,6 +18,7 @@ const config = {
         placeholder: 'rgba(0,0,0,0.54)',
         backdrop: 'rgba(0,0,0,0.5)',
         notification: '#F50057',
+        divider: '#ddd'
     },
 }
 

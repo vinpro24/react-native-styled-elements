@@ -65,6 +65,7 @@ const ListView = React.forwardRef((props, ref) => {
             style={props.style}
             contentContainerStyle={props.contentContainerStyle}
             numColumns={props.numColumns}
+            keyboardShouldPersistTaps={props.keyboardShouldPersistTaps}
             disableVirtualization={props.disableVirtualization}
             removeClippedSubviews={props.removeClippedSubviews}
             showsHorizontalScrollIndicator={props.showsHorizontalScrollIndicator}
@@ -84,6 +85,7 @@ ListView.propTypes = {
     numColumns: PropTypes.number,
     keyExtractor: PropTypes.func,
     onEndReachedThreshold: PropTypes.number,
+    keyboardShouldPersistTaps: PropTypes.string,
     disableVirtualization: PropTypes.bool,
     removeClippedSubviews: PropTypes.bool,
     showsHorizontalScrollIndicator: PropTypes.bool,
@@ -106,6 +108,7 @@ ListView.defaultProps = {
     ListEmptyComponent: null,
     ListFooterComponent: null,
     ListHeaderComponent: null,
+    keyboardShouldPersistTaps: 'always',
     disableVirtualization: false,
     removeClippedSubviews: true,
     showsHorizontalScrollIndicator: false,

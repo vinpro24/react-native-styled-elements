@@ -104,13 +104,13 @@ for (const iconType of IconTypes) {
         case 'FontAwesome5Pro':
             try {
                 if (!isExpo) {
-                    FontAwesome5Pro = require('react-native-vector-icons/FontAwesome5Pro').default;
+                    // FontAwesome5Pro = require('react-native-vector-icons/FontAwesome5Pro').default;
                 }
             } catch (e) { }
         case 'Fontisto':
             try {
                 if (!isExpo) {
-                    Fontisto = require('react-native-vector-icons/Fontisto').default;
+                    // Fontisto = require('react-native-vector-icons/Fontisto').default;
                 }
             } catch (error) {
 
